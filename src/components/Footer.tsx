@@ -14,7 +14,7 @@ const Footer = () => {
           {/* Brand */}
           <div className="lg:col-span-1">
             <Link to="/" className="text-2xl font-serif font-bold text-primary mb-4 block">
-              Bangle <span className="font-light">Boutique</span>
+              Kuppivala
             </Link>
             <p className="text-muted-foreground mb-4">
               Discover our exquisite collection of handcrafted bangles for every occasion.
@@ -135,7 +135,7 @@ const Footer = () => {
         {/* Bottom section with copyright */}
         <div className="border-t border-border pt-8">
           <p className="text-center text-muted-foreground">
-            &copy; {currentYear} Bangle Boutique. All rights reserved.
+            &copy; {currentYear} Kuppivala. All rights reserved.
           </p>
         </div>
       </div>

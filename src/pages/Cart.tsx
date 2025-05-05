@@ -76,7 +76,7 @@ const Cart = () => {
                           {/* Mobile Price */}
                           <div className="md:hidden mt-2">
                             <p className="text-sm">
-                              Price: <span className="font-medium">${itemPrice.toFixed(2)}</span>
+                              Price: <span className="font-medium">₹{itemPrice.toFixed(2)}</span>
                               {item.product.offer.type === 'discount' && (
                                 <span className="text-xs text-destructive ml-1">
                                   ({(item.product.offer.value * 100).toFixed(0)}% OFF)
@@ -133,7 +133,7 @@ const Cart = () => {
                       {/* Total Price */}
                       <div className="md:col-span-2 flex items-center justify-between md:justify-end">
                         <span className="md:hidden">Total:</span>
-                        <span className="font-medium">${totalItemPrice.toFixed(2)}</span>
+                        <span className="font-medium">₹{totalItemPrice.toFixed(2)}</span>
                       </div>
                       
                       {/* Remove Button */}
@@ -187,7 +187,7 @@ const Cart = () => {
               {/* Total */}
               <div className="flex justify-between font-medium text-lg mb-6">
                 <span>Estimated Total</span>
-                <span>${totalPrice.toFixed(2)}</span>
+                <span>₹{totalPrice.toFixed(2)}</span>
               </div>
               
               {/* Checkout Button */}

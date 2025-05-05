@@ -88,7 +88,7 @@ const Index = () => {
             <div className="md:w-1/2">
               <h2 className="font-serif text-3xl font-bold mb-4">Our Story</h2>
               <p className="text-muted-foreground mb-6">
-                Bangle Boutique was born out of a passion for traditional craftsmanship combined with modern design. 
+                Kuppivala was born out of a passion for traditional craftsmanship combined with modern design. 
                 Our journey began in a small workshop where each piece was handcrafted with love and attention to detail.
               </p>
               <p className="text-muted-foreground mb-6">
@@ -122,7 +122,7 @@ const Index = () => {
             <Button type="submit">Subscribe</Button>
           </form>
           <p className="text-xs text-muted-foreground mt-4">
-            By subscribing, you agree to our Privacy Policy and consent to receive updates from our company.
+            By subscribing, you agree to our Privacy Policy and consent to receive updates from Kuppivala.
           </p>
         </div>
       </section>

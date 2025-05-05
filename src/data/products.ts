@@ -28,8 +28,8 @@ export const products: Product[] = [
     name: "Golden Glamour Bangles",
     description: "Elegant golden bangles, perfect for special occasions. These handcrafted pieces feature intricate detailing that catches the light beautifully. Each bangle is carefully polished to achieve that perfect shine that complements both traditional and contemporary outfits.",
     images: [
-      "https://via.placeholder.com/600x600?text=Golden1",
-      "https://via.placeholder.com/600x600?text=Golden2",
+      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fshop.moneymax.com.sg%2Fcdn%2Fshop%2Ffiles%2FNG0496_A_2048x2048_nologo.jpg%3Fv%3D1692003363&f=1&nofb=1&ipt=2bb3256be611408d8e3f7cd6deb905bcc4e3be88cfef8d8db80f62aa864cadf6",
+      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.0TwWv3505tgI-Uyw_D7iZQHaHa%3Fpid%3DApi&f=1&ipt=73c1fb7e78cef68070d3769eaa484004c38ca64af25622f5c0d78635c441fff8",
       "https://via.placeholder.com/600x600?text=Golden3"
     ],
     variations: [

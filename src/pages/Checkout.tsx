@@ -382,8 +382,8 @@ const Checkout = () => {
                           Color: {item.variation.color}, Size: {item.variation.size}
                         </p>
                         <div className="flex justify-between mt-1">
-                          <p className="text-sm">{item.quantity} × ${itemPrice.toFixed(2)}</p>
-                          <p className="font-medium">${(itemPrice * item.quantity).toFixed(2)}</p>
+                          <p className="text-sm">{item.quantity} × ₹{itemPrice.toFixed(2)}</p>
+                          <p className="font-medium">₹{(itemPrice * item.quantity).toFixed(2)}</p>
                         </div>
                       </div>
                     </div>
@@ -397,7 +397,7 @@ const Checkout = () => {
               <div className="space-y-4">
                 <div className="flex justify-between">
                   <span>Subtotal</span>
-                  <span>${totalPrice.toFixed(2)}</span>
+                  <span>₹{totalPrice.toFixed(2)}</span>
                 </div>
                 
                 <div className="flex justify-between">
@@ -407,7 +407,7 @@ const Checkout = () => {
                 
                 <div className="flex justify-between">
                   <span>Tax</span>
-                  <span>${(totalPrice * 0.08).toFixed(2)}</span>
+                  <span>₹{(totalPrice * 0.08).toFixed(2)}</span>
                 </div>
               </div>
               
@@ -416,7 +416,7 @@ const Checkout = () => {
               {/* Total */}
               <div className="flex justify-between font-medium text-lg mb-6">
                 <span>Total</span>
-                <span>${(totalPrice + 9.99 + (totalPrice * 0.08)).toFixed(2)}</span>
+                <span>₹{(totalPrice + 9.99 + (totalPrice * 0.08)).toFixed(2)}</span>
               </div>
               
               {/* Place Order Button */}

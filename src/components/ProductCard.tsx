@@ -22,8 +22,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const discountedHighestPrice = highestPrice * discountFactor;
   
   const priceDisplay = lowestPrice === highestPrice 
-    ? `$${discountedLowestPrice.toFixed(2)}`
-    : `$${discountedLowestPrice.toFixed(2)} - $${discountedHighestPrice.toFixed(2)}`;
+    ? `₹${discountedLowestPrice.toFixed(2)}`
+    : `₹${discountedLowestPrice.toFixed(2)} - ₹${discountedHighestPrice.toFixed(2)}`;
 
   // Determine if the product is on sale
   const isOnSale = product.offer.type === 'discount' && product.offer.value > 0;

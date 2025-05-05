@@ -221,7 +221,7 @@ const ProductDetail = () => {
                 </>
               ) : (
                 <span className="text-2xl font-bold">
-                  ${finalPrice.toFixed(2)}
+                  ₹{finalPrice.toFixed(2)}
                 </span>
               )}
               
