@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { useCart } from '@/context/CartContext';
 import { Link } from 'react-router-dom';
@@ -191,14 +190,14 @@ const Cart = () => {
               </div>
               
               {/* Checkout Button */}
-              <Button asChild className="w-full">
+              {/* <Button asChild className="w-full">
                 <Link to="/checkout">
                   Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
-              </Button>
+              </Button> */}
               
               {/* Payment Methods */}
-              <div className="mt-6 text-center text-sm text-muted-foreground">
+              {/*
                 <p className="mb-2">We accept:</p>
                 <div className="flex justify-center space-x-2">
                   <div className="h-6 w-10 bg-muted rounded">Visa</div>
@@ -206,7 +205,7 @@ const Cart = () => {
                   <div className="h-6 w-10 bg-muted rounded">Amex</div>
                   <div className="h-6 w-10 bg-muted rounded">PayPal</div>
                 </div>
-              </div>
+              */}
             </div>
           </div>
         </div>

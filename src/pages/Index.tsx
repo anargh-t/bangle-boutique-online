@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Hero from '@/components/Hero';
 import FeaturedProducts from '@/components/FeaturedProducts';
@@ -74,37 +73,6 @@ const Index = () => {
         </div>
       </section>
       
-      {/* Brand Story Section */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-12">
-            <div className="md:w-1/2">
-              <img 
-                src="https://via.placeholder.com/800x600?text=Our+Story" 
-                alt="Our Story" 
-                className="rounded-lg shadow-lg"
-              />
-            </div>
-            <div className="md:w-1/2">
-              <h2 className="font-serif text-3xl font-bold mb-4">Our Story</h2>
-              <p className="text-muted-foreground mb-6">
-                Kuppivala was born out of a passion for traditional craftsmanship combined with modern design. 
-                Our journey began in a small workshop where each piece was handcrafted with love and attention to detail.
-              </p>
-              <p className="text-muted-foreground mb-6">
-                Today, we continue this tradition, creating exquisite bangles that blend cultural heritage with contemporary style. 
-                Each piece tells a story and is designed to be cherished for generations.
-              </p>
-              <Button asChild variant="outline">
-                <Link to="/about">
-                  Read More <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </section>
-      
       {/* Newsletter Section */}
       <section className="py-16 bg-primary/10">
         <div className="container mx-auto px-4 text-center max-w-2xl">
@@ -124,6 +92,49 @@ const Index = () => {
           <p className="text-xs text-muted-foreground mt-4">
             By subscribing, you agree to our Privacy Policy and consent to receive updates from Kuppivala.
           </p>
+        </div>
+      </section>
+
+      {/* Instagram Feed Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4 text-center">
+          <h2 className="font-serif text-3xl font-bold mb-8">Follow us on Instagram</h2>
+          <div className="flex justify-center mb-6">
+            <a
+              href="https://www.instagram.com/kuppivala_by_gg?igsh=MXh4andyOTc5Y200Nw=="
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-block px-6 py-2 bg-primary text-white rounded-md font-medium hover:bg-primary/90 transition"
+            >
+              @kuppivala_by_gg
+            </a>
+          </div>
+          {/* Instagram Embed */}
+          <div className="flex justify-center">
+            <iframe
+              src="https://www.instagram.com/kuppivala_by_gg/embed"
+              width="400"
+              height="480"
+              frameBorder="0"
+              scrolling="no"
+              allowTransparency={true}
+              title="Kuppivala Instagram Feed"
+              className="rounded-lg shadow-lg"
+              style={{ border: 'none', overflow: 'hidden' }}
+            ></iframe>
+          </div>
+        </div>
+      </section>
+
+      {/* Kuppivala by Greeshma N Gopika Logo Section */}
+      <section className="py-12 bg-transparent">
+        <div className="container mx-auto px-4 text-center">
+          <img
+            src="/kupp-gng.png"
+            alt="Kuppivala by Greeshma N Gopika Logo"
+            className="mx-auto h-40 w-auto mb-4"
+            style={{ background: 'transparent' }}
+          />
         </div>
       </section>
     </div>

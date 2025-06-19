@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProductById, Product, Variation } from '@/data/products';
@@ -311,6 +310,17 @@ const ProductDetail = () => {
                 <ShoppingBag className="mr-2 h-4 w-4" /> 
                 Add to Cart
               </Button>
+              {/* WhatsApp Buy/Enquire Button */}
+              <a
+                href={`https://wa.me/917736585213?text=${encodeURIComponent(`Hello, I'm interested in the product: ${product.name} (${selectedSize} inches, ${selectedColor}). Is it available?`)}
+                `}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full mt-2 inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm font-medium"
+                style={{ textAlign: 'center' }}
+              >
+                Buy/Enquire on WhatsApp
+              </a>
             </div>
           </div>
         </div>

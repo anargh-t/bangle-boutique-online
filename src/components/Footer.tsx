@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Facebook, Twitter } from 'lucide-react';
@@ -13,15 +12,21 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="text-2xl font-serif font-bold text-primary mb-4 block">
+            <Link to="/" className="flex flex-col items-center text-2xl font-serif font-bold text-primary mb-4">
+              <img
+                src="/logo%20symbol.png"
+                alt="Kuppivala Logo Symbol"
+                className="h-10 w-auto object-contain mb-1"
+                style={{ background: 'transparent' }}
+              />
               Kuppivala
             </Link>
             <p className="text-muted-foreground mb-4">
-              Discover our exquisite collection of handcrafted bangles for every occasion.
+              Discover our exquisite collection of handcrafted glass bangles for every occasion.
             </p>
             <div className="flex space-x-4">
               <a 
-                href="https://instagram.com" 
+                href="https://www.instagram.com/kuppivala_by_gg?igsh=MXh4andyOTc5Y200Nw==" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="text-muted-foreground hover:text-primary transition-colors"

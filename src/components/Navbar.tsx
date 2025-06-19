@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -39,8 +38,14 @@ const Navbar = () => {
     >
       <div className="container mx-auto px-4 flex justify-between items-center">
         {/* Logo */}
-        <Link to="/" className="text-2xl font-serif font-bold text-primary">
-          Bangle <span className="font-light">Boutique</span>
+        <Link to="/" className="flex items-center space-x-2">
+          <img
+            src="/logo%20symbol.png"
+            alt="Kuppivala Logo Symbol"
+            className="h-8 w-auto object-contain"
+            style={{ background: 'transparent' }}
+          />
+          <span className="text-2xl font-serif font-bold text-primary">Kuppivala</span>
         </Link>
 
         {/* Desktop Menu */}
