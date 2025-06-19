@@ -9,22 +9,19 @@ const Footer = () => {
     <footer className="bg-muted pt-12 pb-8">
       <div className="container mx-auto px-4">
         {/* Top section with columns */}
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-8 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-10">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link to="/" className="flex flex-col items-center text-2xl font-serif font-bold text-primary mb-4">
+            <Link to="/" className="flex flex-col items-center text-2xl font-serif font-bold text-primary mb-2">
               <img
-                src="/logo%20symbol.png"
+                src="/logo_symbol.png"
                 alt="Kuppivala Logo Symbol"
                 className="h-10 w-auto object-contain mb-1"
                 style={{ background: 'transparent' }}
               />
               Kuppivala
             </Link>
-            <p className="text-muted-foreground mb-4">
-              Discover our exquisite collection of handcrafted glass bangles for every occasion.
-            </p>
-            <div className="flex space-x-4">
+            <div className="flex items-center justify-center space-x-4 mb-4">
               <a 
                 href="https://www.instagram.com/kuppivala_by_gg?igsh=MXh4andyOTc5Y200Nw==" 
                 target="_blank" 
@@ -104,33 +101,6 @@ const Footer = () => {
               <li>
                 <Link to="/size-guide" className="text-muted-foreground hover:text-primary transition-colors">
                   Size Guide
-                </Link>
-              </li>
-            </ul>
-          </div>
-          
-          {/* About */}
-          <div>
-            <h3 className="font-medium text-lg mb-4">About</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link to="/about" className="text-muted-foreground hover:text-primary transition-colors">
-                  Our Story
-                </Link>
-              </li>
-              <li>
-                <Link to="/sustainability" className="text-muted-foreground hover:text-primary transition-colors">
-                  Sustainability
-                </Link>
-              </li>
-              <li>
-                <Link to="/careers" className="text-muted-foreground hover:text-primary transition-colors">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link to="/privacy-policy" className="text-muted-foreground hover:text-primary transition-colors">
-                  Privacy Policy
                 </Link>
               </li>
             </ul>

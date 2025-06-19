@@ -105,6 +105,10 @@ const ProductDetail = () => {
     addToCart(product, selectedVariation, quantity);
   };
   
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+  
   if (isLoading) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">

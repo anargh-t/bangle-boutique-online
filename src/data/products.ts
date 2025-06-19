@@ -124,7 +124,7 @@ export const products: Product[] = [
     name: "Glass Pearl Bangle - Lavender",
     description: "Delicate glass pearl bangle in a soft lavender hue. Perfect for adding a touch of elegance and color to any outfit. Handcrafted with high-quality glass pearls for a luxurious finish.",
     images: [
-      "/Glass pearl bangle - lavender.jpg"
+      "/Glass_pearl_bangle-lavender.jpg"
     ],
     variations: [
       { color: "Lavender", size: "2.4", price: 180, quantity: 10 },
@@ -139,7 +139,7 @@ export const products: Product[] = [
     name: "Glass Pearl Bangle - Rani Pink",
     description: "Vibrant rani pink glass pearl bangle, designed to stand out. This piece features lustrous glass pearls in a bold pink shade, ideal for festive occasions and celebrations.",
     images: [
-      "/Glass pearl bangle - rani pink.jpg"
+      "/Glass_pearl_bangle-rani pink.jpg"
     ],
     variations: [
       { color: "Rani Pink", size: "2.4", price: 185, quantity: 12 },

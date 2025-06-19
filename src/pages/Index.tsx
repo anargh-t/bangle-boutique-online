@@ -11,68 +11,6 @@ const Index = () => {
       <Hero />
       <FeaturedProducts />
       
-      {/* Categories Section */}
-      <section className="py-16 bg-muted/50">
-        <div className="container mx-auto px-4">
-          <h2 className="font-serif text-3xl font-bold text-center mb-12">Shop by Category</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Traditional Category */}
-            <div className="relative overflow-hidden rounded-lg aspect-[4/5] group">
-              <img 
-                src="https://via.placeholder.com/600x750?text=Traditional" 
-                alt="Traditional Bangles" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
-                <h3 className="text-white font-serif text-2xl mb-2">Traditional</h3>
-                <p className="text-white/80 mb-4">Timeless classics for every occasion</p>
-                <Button asChild variant="outline" className="bg-white/20 backdrop-blur-sm border-white text-white hover:bg-white/30 w-fit">
-                  <Link to="/catalog?category=traditional">
-                    Explore <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            
-            {/* Contemporary Category */}
-            <div className="relative overflow-hidden rounded-lg aspect-[4/5] group">
-              <img 
-                src="https://via.placeholder.com/600x750?text=Contemporary" 
-                alt="Contemporary Bangles" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
-                <h3 className="text-white font-serif text-2xl mb-2">Contemporary</h3>
-                <p className="text-white/80 mb-4">Modern designs for the fashion-forward</p>
-                <Button asChild variant="outline" className="bg-white/20 backdrop-blur-sm border-white text-white hover:bg-white/30 w-fit">
-                  <Link to="/catalog?category=contemporary">
-                    Explore <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-            
-            {/* Luxury Category */}
-            <div className="relative overflow-hidden rounded-lg aspect-[4/5] group">
-              <img 
-                src="https://via.placeholder.com/600x750?text=Luxury" 
-                alt="Luxury Bangles" 
-                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-6">
-                <h3 className="text-white font-serif text-2xl mb-2">Luxury</h3>
-                <p className="text-white/80 mb-4">Premium pieces for special moments</p>
-                <Button asChild variant="outline" className="bg-white/20 backdrop-blur-sm border-white text-white hover:bg-white/30 w-fit">
-                  <Link to="/catalog?category=luxury">
-                    Explore <ArrowRight className="ml-2 h-4 w-4" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-      
       {/* Newsletter Section */}
       <section className="py-16 bg-primary/10">
         <div className="container mx-auto px-4 text-center max-w-2xl">

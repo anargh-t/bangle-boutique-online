@@ -9,7 +9,7 @@ const Hero = () => {
       {/* Brand Logo and Name */}
       <div className="flex flex-col items-center mb-8 z-20 relative">
         <img
-          src="/logo%20symbol.png"
+          src="/logo_symbol.png"
           alt="Kuppivala Logo Symbol"
           className="h-40 w-auto object-contain mb-2"
           style={{ background: 'transparent' }}
@@ -31,9 +31,6 @@ const Hero = () => {
               <Link to="/catalog">
                 Shop Collection <ArrowRight className="ml-2 h-4 w-4" />
               </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="px-8">
-              <Link to="/about">Our Story</Link>
             </Button>
           </div>
         </div>

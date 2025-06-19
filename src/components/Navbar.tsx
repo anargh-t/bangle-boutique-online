@@ -40,7 +40,7 @@ const Navbar = () => {
         {/* Logo */}
         <Link to="/" className="flex items-center space-x-2">
           <img
-            src="/logo%20symbol.png"
+            src="/logo_symbol.png"
             alt="Kuppivala Logo Symbol"
             className="h-8 w-auto object-contain"
             style={{ background: 'transparent' }}
