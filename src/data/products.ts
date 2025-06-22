@@ -252,7 +252,7 @@ export const products: Product[] = [
     name: "Pearl Bangle - Green",
     description: "Elegant pearl bangle in a beautiful green shade. The pearl finish adds a sophisticated and luxurious touch to this piece.",
     images: [
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Green1.jpg"
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Green1.jpg"
     ],
     variations: [
       { color: "Green", size: "2.2", price: 180 },
@@ -267,8 +267,8 @@ export const products: Product[] = [
     name: "Pearl Bangle - Pink",
     description: "Delicate pearl bangle in soft pink. Perfect for adding a feminine and elegant touch to any outfit.",
     images: [
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Pink1.jpg",
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Pink2.jpg"
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Pink1.jpg",
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Pink2.jpg"
     ],
     variations: [
       { color: "Pink", size: "2.2", price: 180 },
@@ -283,8 +283,8 @@ export const products: Product[] = [
     name: "Pearl Bangle - Rani Pink",
     description: "Bold rani pink pearl bangle with a striking appearance. Perfect for making a statement at special occasions.",
     images: [
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Rani_Pink1.jpg",
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Rani_Pink2.jpg"
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Rani_Pink1.jpg",
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Rani_Pink2.jpg"
     ],
     variations: [
       { color: "Rani Pink", size: "2.2", price: 180 },
@@ -300,7 +300,7 @@ export const products: Product[] = [
     name: "Pearl Bangle - Lavender",
     description: "Soft lavender pearl bangle with a gentle, elegant appearance. Perfect for adding a touch of sophistication to any ensemble.",
     images: [
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Lavender1.jpg"
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Lavender1.jpg"
     ],
     variations: [
       { color: "Lavender", size: "2.2", price: 180 },
@@ -315,7 +315,7 @@ export const products: Product[] = [
     name: "Pearl Bangle - Yellow",
     description: "Bright yellow pearl bangle that adds warmth and vibrancy to any outfit. Perfect for festive occasions and celebrations.",
     images: [
-      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Yellow1.jpg"
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Yellow1.jpg"
     ],
     variations: [
       { color: "Yellow", size: "2.2", price: 180 },
@@ -398,9 +398,9 @@ export const products: Product[] = [
     name: "Raindrop Multi Color Bangle",
     description: "Vibrant multi-color raindrop bangle featuring a beautiful blend of colors. Perfect for adding fun and excitement to any ensemble.",
     images: [
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi1.jpg",
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi2.jpg",
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi3.jpg"
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi1.jpg",
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi2.jpg",
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi3.jpg"
     ],
     variations: [
       { color: "Multi Color", size: "2.2", price: 180 },
@@ -416,8 +416,8 @@ export const products: Product[] = [
     name: "Raindrop Multi Green Bangle",
     description: "Beautiful green-themed multi-color raindrop bangle. The combination of different green shades creates a harmonious and natural look.",
     images: [
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Green1.jpg",
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Green2.jpg"
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Green1.jpg",
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Green2.jpg"
     ],
     variations: [
       { color: "Multi Green", size: "2.2", price: 180 },
@@ -432,8 +432,8 @@ export const products: Product[] = [
     name: "Raindrop Multi Yellow Bangle",
     description: "Warm yellow-themed multi-color raindrop bangle. The combination of yellow shades creates a bright and cheerful appearance.",
     images: [
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Yellow1.jpg",
-      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Yellow2.jpg"
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Yellow1.jpg",
+      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Yellow2.jpg"
     ],
     variations: [
       { color: "Multi Yellow", size: "2.2", price: 180 },
