@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Product, Variation } from '../data/products';
 import { toast } from '@/components/ui/sonner';
@@ -55,24 +54,10 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     if (existingItemIndex !== -1) {
       // Update the quantity of the existing item
       const updatedItems = [...items];
-      const newQuantity = updatedItems[existingItemIndex].quantity + quantity;
-      
-      // Check if there's enough stock
-      if (newQuantity > variation.quantity) {
-        toast.error(`Sorry, only ${variation.quantity} items are available.`);
-        return;
-      }
-      
-      updatedItems[existingItemIndex].quantity = newQuantity;
+      updatedItems[existingItemIndex].quantity += quantity;
       setItems(updatedItems);
       toast.success(`Updated quantity in your cart!`);
     } else {
-      // Check if there's enough stock
-      if (quantity > variation.quantity) {
-        toast.error(`Sorry, only ${variation.quantity} items are available.`);
-        return;
-      }
-      
       // Add a new item to the cart
       setItems([...items, { product, variation, quantity }]);
       toast.success(`Added to your cart!`);
@@ -90,12 +75,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     // Check if quantity is valid
     if (quantity <= 0) {
       removeFromCart(index);
-      return;
-    }
-    
-    // Check if there's enough stock
-    if (quantity > items[index].variation.quantity) {
-      toast.error(`Sorry, only ${items[index].variation.quantity} items are available.`);
       return;
     }
     

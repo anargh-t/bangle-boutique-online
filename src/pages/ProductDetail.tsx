@@ -89,8 +89,6 @@ const ProductDetail = () => {
     const value = parseInt(e.target.value);
     if (isNaN(value) || value < 1) {
       setQuantity(1);
-    } else if (selectedVariation && value > selectedVariation.quantity) {
-      setQuantity(selectedVariation.quantity);
     } else {
       setQuantity(value);
     }
@@ -152,8 +150,6 @@ const ProductDetail = () => {
 
   // Calculate the price with discount if applicable
   const price = selectedVariation?.price || 0;
-  const discountFactor = product.offer.type === 'discount' ? 1 - product.offer.value : 1;
-  const finalPrice = price * discountFactor;
   
   return (
     <div className="min-h-screen pt-20">
@@ -210,29 +206,9 @@ const ProductDetail = () => {
             
             {/* Price */}
             <div className="flex items-center mb-6">
-              {product.offer.type === 'discount' ? (
-                <>
-                  <span className="text-2xl font-bold text-destructive">
-                    ${finalPrice.toFixed(2)}
-                  </span>
-                  <span className="ml-2 text-muted-foreground line-through">
-                    ${price.toFixed(2)}
-                  </span>
-                  <Badge variant="outline" className="ml-2 bg-destructive/10 text-destructive border-destructive/20">
-                    {(product.offer.value * 100).toFixed(0)}% OFF
-                  </Badge>
-                </>
-              ) : (
-                <span className="text-2xl font-bold">
-                  ₹{finalPrice.toFixed(2)}
-                </span>
-              )}
-              
-              {product.offer.type === 'bundle' && (
-                <Badge variant="outline" className="ml-2">
-                  Bundle of {product.offer.value}
-                </Badge>
-              )}
+              <span className="text-2xl font-bold">
+                ₹{price.toFixed(2)}
+              </span>
             </div>
             
             {/* Description */}
@@ -284,9 +260,6 @@ const ProductDetail = () => {
                     ))}
                   </SelectContent>
                 </Select>
-                <p className="text-xs text-muted-foreground mt-1">
-                  {selectedVariation ? `${selectedVariation.quantity} in stock` : 'Select options to see availability'}
-                </p>
               </div>
               
               {/* Quantity */}
@@ -298,7 +271,6 @@ const ProductDetail = () => {
                   type="number"
                   id="quantity"
                   min="1"
-                  max={selectedVariation?.quantity || 1}
                   value={quantity}
                   onChange={handleQuantityChange}
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
@@ -309,14 +281,14 @@ const ProductDetail = () => {
               <Button 
                 className="w-full"
                 onClick={handleAddToCart}
-                disabled={!selectedVariation || selectedVariation.quantity === 0}
+                disabled={!selectedVariation}
               >
                 <ShoppingBag className="mr-2 h-4 w-4" /> 
                 Add to Cart
               </Button>
               {/* WhatsApp Buy/Enquire Button */}
               <a
-                href={`https://wa.me/917736585213?text=${encodeURIComponent(`Hello, I'm interested in the product: ${product.name} (${selectedSize} inches, ${selectedColor}). Is it available?`)}
+                href={`https://wa.me/917012849883?text=${encodeURIComponent(`Hello, I'm interested in the product: ${product.name} (${selectedSize} inches, ${selectedColor}). Is it available?`)}
                 `}
                 target="_blank"
                 rel="noopener noreferrer"

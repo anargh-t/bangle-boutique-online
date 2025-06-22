@@ -2,12 +2,6 @@ export interface Variation {
   color: string;
   size: string;
   price: number;
-  quantity: number;
-}
-
-export interface Offer {
-  type: 'discount' | 'bundle' | 'none';
-  value: number;
 }
 
 export interface Product {
@@ -16,138 +10,438 @@ export interface Product {
   description: string;
   images: string[];
   variations: Variation[];
-  offer: Offer;
   category: string;
   featured?: boolean;
 }
 
 export const products: Product[] = [
+  // COMBO BANGLES
   {
-    id: "1",
-    name: "Golden Glamour Bangles",
-    description: "Elegant golden bangles, perfect for special occasions. These handcrafted pieces feature intricate detailing that catches the light beautifully. Each bangle is carefully polished to achieve that perfect shine that complements both traditional and contemporary outfits.",
+    id: "combo-yellow-green-1",
+    name: "Yellow Green Combo Bangle Set",
+    description: "Beautiful combination of yellow and green bangles perfect for festive occasions. This set features vibrant colors that complement traditional Indian attire beautifully.",
     images: [
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Fshop.moneymax.com.sg%2Fcdn%2Fshop%2Ffiles%2FNG0496_A_2048x2048_nologo.jpg%3Fv%3D1692003363&f=1&nofb=1&ipt=2bb3256be611408d8e3f7cd6deb905bcc4e3be88cfef8d8db80f62aa864cadf6",
-      "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%2Fid%2FOIP.0TwWv3505tgI-Uyw_D7iZQHaHa%3Fpid%3DApi&f=1&ipt=73c1fb7e78cef68070d3769eaa484004c38ca64af25622f5c0d78635c441fff8",
-      "https://via.placeholder.com/600x600?text=Golden3"
+      "/BANGLES/COMBO/Yellow_Green_Combo1.jpg",
+      "/BANGLES/COMBO/Yellow_Green_Combo2.jpg"
     ],
     variations: [
-      { color: "Gold", size: "2.4", price: 250, quantity: 10 },
-      { color: "Gold", size: "2.6", price: 250, quantity: 15 },
-      { color: "Gold", size: "2.8", price: 275, quantity: 12 }
+      { color: "Yellow Green Combo", size: "2.2", price: 180 },
+      { color: "Yellow Green Combo", size: "2.4", price: 180 },
+      { color: "Yellow Green Combo", size: "2.6", price: 180 },
+      { color: "Yellow Green Combo", size: "2.8", price: 180 }
     ],
-    offer: { type: "discount", value: 0.10 },
-    category: "traditional",
+    category: "combo",
     featured: true
   },
   {
-    id: "2",
-    name: "Colorful Crystal Bangles",
-    description: "Vibrant crystal bangles that add a touch of color to your outfit. These eye-catching pieces feature high-quality crystals that sparkle with every movement. Available in stunning red and blue variants, they're perfect for adding a pop of color to any ensemble.",
+    id: "combo-lavender-wine",
+    name: "Lavender Wine Combo Bangle Set",
+    description: "Elegant combination of lavender and wine colored bangles. Perfect for adding sophistication to any traditional or contemporary outfit.",
     images: [
-      "https://via.placeholder.com/600x600?text=Crystal1",
-      "https://via.placeholder.com/600x600?text=Crystal2"
+      "/BANGLES/COMBO/Lavender_Wine_Combo1.jpg"
     ],
     variations: [
-      { color: "Red", size: "2.4", price: 300, quantity: 8 },
-      { color: "Red", size: "2.6", price: 300, quantity: 12 },
-      { color: "Blue", size: "2.4", price: 320, quantity: 10 },
-      { color: "Blue", size: "2.6", price: 320, quantity: 14 }
+      { color: "Lavender Wine Combo", size: "2.2", price: 180 },
+      { color: "Lavender Wine Combo", size: "2.4", price: 180 },
+      { color: "Lavender Wine Combo", size: "2.6", price: 180 },
+      { color: "Lavender Wine Combo", size: "2.8", price: 180 }
     ],
-    offer: { type: "discount", value: 0.15 },
-    category: "contemporary",
+    category: "combo"
+  },
+
+  // ELEGANT BANGLES
+  {
+    id: "elegant-green",
+    name: "Elegant Green Bangle",
+    description: "Sophisticated green bangle with elegant design. Perfect for traditional occasions and adds a touch of grace to any ensemble.",
+    images: [
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Green.jpg"
+    ],
+    variations: [
+      { color: "Green", size: "2.2", price: 180 },
+      { color: "Green", size: "2.4", price: 180 },
+      { color: "Green", size: "2.6", price: 180 },
+      { color: "Green", size: "2.8", price: 180 }
+    ],
+    category: "elegant"
+  },
+  {
+    id: "elegant-green-kundhan-1",
+    name: "Elegant Green with Kundhan Bangle",
+    description: "Stunning green bangle adorned with kundhan work. The combination of green glass and kundhan creates a luxurious and traditional look.",
+    images: [
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Green_with_Kundhan1.jpg",
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Green_with_Kundhan2.jpg"
+    ],
+    variations: [
+      { color: "Green with Kundhan", size: "2.2", price: 180 },
+      { color: "Green with Kundhan", size: "2.4", price: 180 },
+      { color: "Green with Kundhan", size: "2.6", price: 180 },
+      { color: "Green with Kundhan", size: "2.8", price: 180 }
+    ],
+    category: "elegant",
     featured: true
   },
   {
-    id: "3",
-    name: "Silver Sparkle Bangles",
-    description: "Sterling silver bangles with a sparkling finish, perfect for parties and special events. The minimalist design ensures they pair well with a variety of outfits, while the high-quality silver provides durability and a lasting finish.",
+    id: "elegant-green-red",
+    name: "Elegant Green and Red Bangle",
+    description: "Beautiful combination of green and red in an elegant design. Perfect for festive occasions and traditional celebrations.",
     images: [
-      "https://via.placeholder.com/600x600?text=Silver1",
-      "https://via.placeholder.com/600x600?text=Silver2"
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Green_and_Red1.jpg"
     ],
     variations: [
-      { color: "Silver", size: "2.4", price: 400, quantity: 5 },
-      { color: "Silver", size: "2.6", price: 400, quantity: 7 }
+      { color: "Green and Red", size: "2.2", price: 180 },
+      { color: "Green and Red", size: "2.4", price: 180 },
+      { color: "Green and Red", size: "2.6", price: 180 },
+      { color: "Green and Red", size: "2.8", price: 180 }
     ],
-    offer: { type: "none", value: 0 },
-    category: "modern"
+    category: "elegant"
   },
   {
-    id: "4",
-    name: "Pearl Elegance Bangles",
-    description: "Sophisticated pearl-embedded bangles that bring timeless elegance to any outfit. Each freshwater pearl is carefully selected and embedded in a stunning setting, creating a piece that transitions seamlessly from day to evening wear.",
+    id: "elegant-red-1",
+    name: "Elegant Red Bangle",
+    description: "Classic red bangle with elegant design. A timeless piece that adds warmth and tradition to any outfit.",
     images: [
-      "https://via.placeholder.com/600x600?text=Pearl1",
-      "https://via.placeholder.com/600x600?text=Pearl2"
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Red1.jpg",
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Red2.jpg"
     ],
     variations: [
-      { color: "White", size: "2.4", price: 350, quantity: 8 },
-      { color: "Cream", size: "2.6", price: 375, quantity: 6 }
+      { color: "Red", size: "2.2", price: 180 },
+      { color: "Red", size: "2.4", price: 180 },
+      { color: "Red", size: "2.6", price: 180 },
+      { color: "Red", size: "2.8", price: 180 }
     ],
-    offer: { type: "discount", value: 0.05 },
-    category: "classic"
+    category: "elegant"
   },
   {
-    id: "5",
-    name: "Boho Chic Bangles Set",
-    description: "A set of 5 mixed material bangles with bohemian patterns and charms. This eclectic mix combines wood, metal, and fabric elements to create a statement stack that adds character to casual and boho-inspired outfits.",
+    id: "elegant-red-kundhan",
+    name: "Elegant Red with Kundhan Bangle",
+    description: "Luxurious red bangle enhanced with kundhan work. The perfect blend of traditional red and intricate kundhan detailing.",
     images: [
-      "https://via.placeholder.com/600x600?text=Boho1",
-      "https://via.placeholder.com/600x600?text=Boho2"
+      "/BANGLES/ELEGANT_BANGLES/Elegant_Red_with_Kundhan1.jpg"
     ],
     variations: [
-      { color: "Mixed", size: "2.4", price: 200, quantity: 12 },
-      { color: "Mixed", size: "2.6", price: 200, quantity: 10 }
+      { color: "Red with Kundhan", size: "2.2", price: 180 },
+      { color: "Red with Kundhan", size: "2.4", price: 180 },
+      { color: "Red with Kundhan", size: "2.6", price: 180 },
+      { color: "Red with Kundhan", size: "2.8", price: 180 }
     ],
-    offer: { type: "bundle", value: 5 },
-    category: "boho",
+    category: "elegant",
+    featured: true
+  },
+
+  // OLIVE BANGLES
+  {
+    id: "olive-green",
+    name: "Olive Green Bangle",
+    description: "Sophisticated olive green bangle with a unique earthy tone. Perfect for those who prefer subtle, elegant colors.",
+    images: [
+      "/BANGLES/OLIVE/Olive_Green1.jpg"
+    ],
+    variations: [
+      { color: "Olive Green", size: "2.2", price: 200 },
+      { color: "Olive Green", size: "2.4", price: 200 },
+      { color: "Olive Green", size: "2.6", price: 200 },
+      { color: "Olive Green", size: "2.8", price: 200 }
+    ],
+    category: "olive"
+  },
+  {
+    id: "olive-green-kundhan",
+    name: "Olive Green with Kundhan Bangle",
+    description: "Elegant olive green bangle adorned with kundhan work. The earthy tone combined with kundhan creates a sophisticated look.",
+    images: [
+      "/BANGLES/OLIVE/Olive_Green_with_Kundhan1.jpg"
+    ],
+    variations: [
+      { color: "Olive Green with Kundhan", size: "2.2", price: 200 },
+      { color: "Olive Green with Kundhan", size: "2.4", price: 200 },
+      { color: "Olive Green with Kundhan", size: "2.6", price: 200 },
+      { color: "Olive Green with Kundhan", size: "2.8", price: 200 }
+    ],
+    category: "olive",
+    featured: true
+  },
+
+  // OREO BANGLES
+  {
+    id: "oreo-red-1",
+    name: "Oreo Red Bangle",
+    description: "Classic oreo style red bangle with a unique layered design. The oreo pattern adds texture and visual interest to this traditional piece.",
+    images: [
+      "/BANGLES/OREO_BANGLES/Oreo_Red1.jpg",
+      "/BANGLES/OREO_BANGLES/Oreo_Red2.jpg"
+    ],
+    variations: [
+      { color: "Red", size: "2.2", price: 180 },
+      { color: "Red", size: "2.4", price: 180 },
+      { color: "Red", size: "2.6", price: 180 },
+      { color: "Red", size: "2.8", price: 180 }
+    ],
+    category: "oreo"
+  },
+  {
+    id: "oreo-red-kundhan",
+    name: "Oreo Red with Kundhan Bangle",
+    description: "Stunning oreo red bangle enhanced with kundhan work. The layered design combined with kundhan creates a luxurious appearance.",
+    images: [
+      "/BANGLES/OREO_BANGLES/Oreo_Red_with_kundhan1.jpg"
+    ],
+    variations: [
+      { color: "Red with Kundhan", size: "2.2", price: 180 },
+      { color: "Red with Kundhan", size: "2.4", price: 180 },
+      { color: "Red with Kundhan", size: "2.6", price: 180 },
+      { color: "Red with Kundhan", size: "2.8", price: 180 }
+    ],
+    category: "oreo",
     featured: true
   },
   {
-    id: "6",
-    name: "Diamond Accent Bangle",
-    description: "Luxurious gold bangle with diamond accents, perfect for making a statement. This high-end piece features ethically sourced diamond chips that catch the light beautifully, set in a substantial gold setting that feels as premium as it looks.",
+    id: "oreo-peacock-blue-1",
+    name: "Oreo Peacock Blue Bangle",
+    description: "Beautiful oreo style bangle in peacock blue. The layered design in this vibrant color creates a stunning visual effect.",
     images: [
-      "https://via.placeholder.com/600x600?text=Diamond1",
-      "https://via.placeholder.com/600x600?text=Diamond2"
+      "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue1.jpg",
+      "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue2.jpg"
     ],
     variations: [
-      { color: "Gold", size: "2.4", price: 800, quantity: 3 },
-      { color: "Gold", size: "2.6", price: 825, quantity: 4 }
+      { color: "Peacock Blue", size: "2.2", price: 180 },
+      { color: "Peacock Blue", size: "2.4", price: 180 },
+      { color: "Peacock Blue", size: "2.6", price: 180 },
+      { color: "Peacock Blue", size: "2.8", price: 180 }
     ],
-    offer: { type: "none", value: 0 },
-    category: "luxury"
+    category: "oreo"
   },
   {
-    id: "7",
-    name: "Glass Pearl Bangle - Lavender",
-    description: "Delicate glass pearl bangle in a soft lavender hue. Perfect for adding a touch of elegance and color to any outfit. Handcrafted with high-quality glass pearls for a luxurious finish.",
+    id: "oreo-peacock-blue-kundhan",
+    name: "Oreo Peacock Blue with Kundhan Bangle",
+    description: "Luxurious oreo peacock blue bangle with kundhan embellishments. The combination creates a regal and sophisticated look.",
     images: [
-      "/Glass_pearl_bangle-lavender.jpg"
+      "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue_with_Kundhan1.jpg"
     ],
     variations: [
-      { color: "Lavender", size: "2.4", price: 180, quantity: 10 },
-      { color: "Lavender", size: "2.6", price: 180, quantity: 8 }
+      { color: "Peacock Blue with Kundhan", size: "2.2", price: 180 },
+      { color: "Peacock Blue with Kundhan", size: "2.4", price: 180 },
+      { color: "Peacock Blue with Kundhan", size: "2.6", price: 180 },
+      { color: "Peacock Blue with Kundhan", size: "2.8", price: 180 }
     ],
-    offer: { type: "discount", value: 0.08 },
-    category: "classic",
+    category: "oreo",
     featured: true
   },
   {
-    id: "8",
-    name: "Glass Pearl Bangle - Rani Pink",
-    description: "Vibrant rani pink glass pearl bangle, designed to stand out. This piece features lustrous glass pearls in a bold pink shade, ideal for festive occasions and celebrations.",
+    id: "oreo-multi-color-1",
+    name: "Oreo Multi Color Bangle",
+    description: "Vibrant oreo style bangle featuring multiple colors. Perfect for adding a pop of color and fun to any outfit.",
     images: [
-      "/Glass_pearl_bangle-rani pink.jpg"
+      "/BANGLES/OREO_BANGLES/Oreo_Multi_Color1.jpg",
+      "/BANGLES/OREO_BANGLES/Oreo_Multi_Color2.jpg"
     ],
     variations: [
-      { color: "Rani Pink", size: "2.4", price: 185, quantity: 12 },
-      { color: "Rani Pink", size: "2.6", price: 185, quantity: 10 }
+      { color: "Multi Color", size: "2.2", price: 180 },
+      { color: "Multi Color", size: "2.4", price: 180 },
+      { color: "Multi Color", size: "2.6", price: 180 },
+      { color: "Multi Color", size: "2.8", price: 180 }
     ],
-    offer: { type: "discount", value: 0.10 },
-    category: "classic",
+    category: "oreo",
     featured: true
+  },
+
+  // PEARL BANGLES
+  {
+    id: "pearl-green",
+    name: "Pearl Bangle - Green",
+    description: "Elegant pearl bangle in a beautiful green shade. The pearl finish adds a sophisticated and luxurious touch to this piece.",
+    images: [
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Green1.jpg"
+    ],
+    variations: [
+      { color: "Green", size: "2.2", price: 180 },
+      { color: "Green", size: "2.4", price: 180 },
+      { color: "Green", size: "2.6", price: 180 },
+      { color: "Green", size: "2.8", price: 180 }
+    ],
+    category: "pearl"
+  },
+  {
+    id: "pearl-pink-1",
+    name: "Pearl Bangle - Pink",
+    description: "Delicate pearl bangle in soft pink. Perfect for adding a feminine and elegant touch to any outfit.",
+    images: [
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Pink1.jpg",
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Pink2.jpg"
+    ],
+    variations: [
+      { color: "Pink", size: "2.2", price: 180 },
+      { color: "Pink", size: "2.4", price: 180 },
+      { color: "Pink", size: "2.6", price: 180 },
+      { color: "Pink", size: "2.8", price: 180 }
+    ],
+    category: "pearl"
+  },
+  {
+    id: "pearl-rani-pink-1",
+    name: "Pearl Bangle - Rani Pink",
+    description: "Bold rani pink pearl bangle with a striking appearance. Perfect for making a statement at special occasions.",
+    images: [
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Rani_Pink1.jpg",
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Rani_Pink2.jpg"
+    ],
+    variations: [
+      { color: "Rani Pink", size: "2.2", price: 180 },
+      { color: "Rani Pink", size: "2.4", price: 180 },
+      { color: "Rani Pink", size: "2.6", price: 180 },
+      { color: "Rani Pink", size: "2.8", price: 180 }
+    ],
+    category: "pearl",
+    featured: true
+  },
+  {
+    id: "pearl-lavender",
+    name: "Pearl Bangle - Lavender",
+    description: "Soft lavender pearl bangle with a gentle, elegant appearance. Perfect for adding a touch of sophistication to any ensemble.",
+    images: [
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Lavender1.jpg"
+    ],
+    variations: [
+      { color: "Lavender", size: "2.2", price: 180 },
+      { color: "Lavender", size: "2.4", price: 180 },
+      { color: "Lavender", size: "2.6", price: 180 },
+      { color: "Lavender", size: "2.8", price: 180 }
+    ],
+    category: "pearl"
+  },
+  {
+    id: "pearl-yellow",
+    name: "Pearl Bangle - Yellow",
+    description: "Bright yellow pearl bangle that adds warmth and vibrancy to any outfit. Perfect for festive occasions and celebrations.",
+    images: [
+      "/BANGLES/PEARL BANGLE/Pearl_Bangle_Yellow1.jpg"
+    ],
+    variations: [
+      { color: "Yellow", size: "2.2", price: 180 },
+      { color: "Yellow", size: "2.4", price: 180 },
+      { color: "Yellow", size: "2.6", price: 180 },
+      { color: "Yellow", size: "2.8", price: 180 }
+    ],
+    category: "pearl"
+  },
+
+  // RAINDROP BANGLES
+  {
+    id: "raindrop-black-1",
+    name: "Raindrop Black Bangle",
+    description: "Classic black raindrop bangle with a unique textured design. The raindrop pattern creates an elegant and sophisticated look.",
+    images: [
+      "/BANGLES/RAINDROP/Raindrop_Black1.jpg",
+      "/BANGLES/RAINDROP/Raindrop_Black2.jpg",
+      "/BANGLES/RAINDROP/Raindrop_Black3.jpg",
+      "/BANGLES/RAINDROP/Raindrop_Black4.jpg"
+    ],
+    variations: [
+      { color: "Black", size: "2.2", price: 180 },
+      { color: "Black", size: "2.4", price: 180 },
+      { color: "Black", size: "2.6", price: 180 },
+      { color: "Black", size: "2.8", price: 180 }
+    ],
+    category: "raindrop"
+  },
+  {
+    id: "raindrop-lavender",
+    name: "Raindrop Lavender Bangle",
+    description: "Soft lavender raindrop bangle with a gentle, feminine appearance. The raindrop texture adds subtle elegance to this piece.",
+    images: [
+      "/BANGLES/RAINDROP/Raindrop_Lavender.jpg"
+    ],
+    variations: [
+      { color: "Lavender", size: "2.2", price: 180 },
+      { color: "Lavender", size: "2.4", price: 180 },
+      { color: "Lavender", size: "2.6", price: 180 },
+      { color: "Lavender", size: "2.8", price: 180 }
+    ],
+    category: "raindrop"
+  },
+  {
+    id: "raindrop-reddish-pink-1",
+    name: "Raindrop Reddish Pink Bangle",
+    description: "Beautiful reddish pink raindrop bangle with a warm, inviting color. Perfect for adding a touch of romance to any outfit.",
+    images: [
+      "/BANGLES/RAINDROP/Raindrop_Reddishpink1.jpg",
+      "/BANGLES/RAINDROP/Raindrop_Reddishpink2.jpg"
+    ],
+    variations: [
+      { color: "Reddish Pink", size: "2.2", price: 180 },
+      { color: "Reddish Pink", size: "2.4", price: 180 },
+      { color: "Reddish Pink", size: "2.6", price: 180 },
+      { color: "Reddish Pink", size: "2.8", price: 180 }
+    ],
+    category: "raindrop"
+  },
+  {
+    id: "raindrop-vine",
+    name: "Raindrop Vine Bangle",
+    description: "Unique vine-patterned raindrop bangle with a natural, organic design. Perfect for those who appreciate nature-inspired jewelry.",
+    images: [
+      "/BANGLES/RAINDROP/Raindrop_Vine.jpg"
+    ],
+    variations: [
+      { color: "Vine", size: "2.2", price: 180 },
+      { color: "Vine", size: "2.4", price: 180 },
+      { color: "Vine", size: "2.6", price: 180 },
+      { color: "Vine", size: "2.8", price: 180 }
+    ],
+    category: "raindrop"
+  },
+
+  // RAINDROP MULTI COLOR BANGLES
+  {
+    id: "raindrop-multi-1",
+    name: "Raindrop Multi Color Bangle",
+    description: "Vibrant multi-color raindrop bangle featuring a beautiful blend of colors. Perfect for adding fun and excitement to any ensemble.",
+    images: [
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi1.jpg",
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi2.jpg",
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi3.jpg"
+    ],
+    variations: [
+      { color: "Multi Color", size: "2.2", price: 180 },
+      { color: "Multi Color", size: "2.4", price: 180 },
+      { color: "Multi Color", size: "2.6", price: 180 },
+      { color: "Multi Color", size: "2.8", price: 180 }
+    ],
+    category: "raindrop-multi",
+    featured: true
+  },
+  {
+    id: "raindrop-multi-green-1",
+    name: "Raindrop Multi Green Bangle",
+    description: "Beautiful green-themed multi-color raindrop bangle. The combination of different green shades creates a harmonious and natural look.",
+    images: [
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Green1.jpg",
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Green2.jpg"
+    ],
+    variations: [
+      { color: "Multi Green", size: "2.2", price: 180 },
+      { color: "Multi Green", size: "2.4", price: 180 },
+      { color: "Multi Green", size: "2.6", price: 180 },
+      { color: "Multi Green", size: "2.8", price: 180 }
+    ],
+    category: "raindrop-multi"
+  },
+  {
+    id: "raindrop-multi-yellow-1",
+    name: "Raindrop Multi Yellow Bangle",
+    description: "Warm yellow-themed multi-color raindrop bangle. The combination of yellow shades creates a bright and cheerful appearance.",
+    images: [
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Yellow1.jpg",
+      "/BANGLES/RAINDROP MULTI COLOR BANGLES/Raindrop_Multi_Yellow2.jpg"
+    ],
+    variations: [
+      { color: "Multi Yellow", size: "2.2", price: 180 },
+      { color: "Multi Yellow", size: "2.4", price: 180 },
+      { color: "Multi Yellow", size: "2.6", price: 180 },
+      { color: "Multi Yellow", size: "2.8", price: 180 }
+    ],
+    category: "raindrop-multi"
   }
 ];
 

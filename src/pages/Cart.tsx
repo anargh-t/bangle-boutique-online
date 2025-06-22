@@ -89,7 +89,7 @@ const Cart = () => {
                       {/* Desktop Price */}
                       <div className="hidden md:block md:col-span-2 text-center">
                         <p>
-                          ${itemPrice.toFixed(2)}
+                          ₹{itemPrice.toFixed(2)}
                           {item.product.offer.type === 'discount' && (
                             <span className="block text-xs text-destructive">
                               ({(item.product.offer.value * 100).toFixed(0)}% OFF)
@@ -122,7 +122,6 @@ const Cart = () => {
                             size="icon" 
                             className="h-8 w-8"
                             onClick={() => updateQuantity(index, item.quantity + 1)}
-                            disabled={item.quantity >= item.variation.quantity}
                           >
                             <Plus className="h-3 w-3" />
                           </Button>
@@ -169,7 +168,7 @@ const Cart = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-sm">
                   <span>Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})</span>
-                  <span className="font-medium">${totalPrice.toFixed(2)}</span>
+                  <span className="font-medium">₹{totalPrice.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                   <span>Shipping</span>

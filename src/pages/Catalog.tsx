@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { getProductsByCategory, products } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
@@ -21,12 +20,13 @@ const Catalog = () => {
   
   const categories = [
     { id: 'all', name: 'All Products' },
-    { id: 'traditional', name: 'Traditional' },
-    { id: 'contemporary', name: 'Contemporary' },
-    { id: 'modern', name: 'Modern' },
-    { id: 'boho', name: 'Boho' },
-    { id: 'luxury', name: 'Luxury' },
-    { id: 'classic', name: 'Classic' },
+    { id: 'combo', name: 'Combo Bangles' },
+    { id: 'elegant', name: 'Elegant Bangles' },
+    { id: 'olive', name: 'Olive Bangles' },
+    { id: 'oreo', name: 'Oreo Bangles' },
+    { id: 'pearl', name: 'Pearl Bangles' },
+    { id: 'raindrop', name: 'Raindrop Bangles' },
+    { id: 'raindrop-multi', name: 'Raindrop Multi Color' }
   ];
 
   useEffect(() => {

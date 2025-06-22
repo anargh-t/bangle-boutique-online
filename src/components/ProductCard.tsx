@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Product } from '@/data/products';
 import { Card, CardContent, CardFooter } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
 import { ArrowRight } from 'lucide-react';
 
 interface ProductCardProps {
@@ -15,17 +14,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const lowestPrice = Math.min(...prices);
   const highestPrice = Math.max(...prices);
   
-  // Calculate discounted price if there's an offer
-  const discountFactor = product.offer.type === 'discount' ? 1 - product.offer.value : 1;
-  const discountedLowestPrice = lowestPrice * discountFactor;
-  const discountedHighestPrice = highestPrice * discountFactor;
-  
   const priceDisplay = lowestPrice === highestPrice 
-    ? `₹${discountedLowestPrice.toFixed(2)}`
-    : `₹${discountedLowestPrice.toFixed(2)} - ₹${discountedHighestPrice.toFixed(2)}`;
-
-  // Determine if the product is on sale
-  const isOnSale = product.offer.type === 'discount' && product.offer.value > 0;
+    ? `₹${lowestPrice.toFixed(2)}`
+    : `₹${lowestPrice.toFixed(2)} - ₹${highestPrice.toFixed(2)}`;
 
   return (
     <Card className="overflow-hidden h-full transition-all hover:shadow-md">
@@ -36,16 +27,6 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             alt={product.name} 
             className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
           />
-          {isOnSale && (
-            <Badge variant="destructive" className="absolute top-2 right-2">
-              {(product.offer.value * 100).toFixed(0)}% OFF
-            </Badge>
-          )}
-          {product.offer.type === 'bundle' && (
-            <Badge variant="secondary" className="absolute top-2 right-2">
-              Bundle of {product.offer.value}
-            </Badge>
-          )}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
         </div>
       </Link>
@@ -63,14 +44,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       
       <CardFooter className="flex justify-between items-center p-4 pt-0">
         <div className="font-medium">
-          {isOnSale && (
-            <span className="text-sm line-through text-muted-foreground mr-2">
-              ${lowestPrice.toFixed(2)}
-            </span>
-          )}
-          <span className={isOnSale ? "text-destructive" : ""}>
-            {priceDisplay}
-          </span>
+          <span>{priceDisplay}</span>
         </div>
         <Link 
           to={`/product/${product.id}`} 
