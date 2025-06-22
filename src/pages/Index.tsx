@@ -11,28 +11,6 @@ const Index = () => {
       <Hero />
       <FeaturedProducts />
       
-      {/* Newsletter Section */}
-      <section className="py-16 bg-primary/10">
-        <div className="container mx-auto px-4 text-center max-w-2xl">
-          <h2 className="font-serif text-3xl font-bold mb-4">Stay Connected</h2>
-          <p className="text-muted-foreground mb-8">
-            Subscribe to our newsletter for exclusive offers, early access to new collections, and style inspiration.
-          </p>
-          <form className="flex flex-col sm:flex-row gap-2">
-            <input 
-              type="email" 
-              placeholder="Your email address" 
-              className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 sm:flex-1"
-              required
-            />
-            <Button type="submit">Subscribe</Button>
-          </form>
-          <p className="text-xs text-muted-foreground mt-4">
-            By subscribing, you agree to our Privacy Policy and consent to receive updates from Kuppivala.
-          </p>
-        </div>
-      </section>
-
       {/* Instagram Feed Section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4 text-center">

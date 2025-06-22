@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Instagram, Facebook, Twitter } from 'lucide-react';
+import { Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -31,24 +31,6 @@ const Footer = () => {
               >
                 <Instagram size={20} />
               </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="Follow us on Facebook"
-              >
-                <Facebook size={20} />
-              </a>
-              <a 
-                href="https://twitter.com" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-primary transition-colors"
-                aria-label="Follow us on Twitter"
-              >
-                <Twitter size={20} />
-              </a>
             </div>
           </div>
           
@@ -62,18 +44,33 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/catalog?category=traditional" className="text-muted-foreground hover:text-primary transition-colors">
-                  Traditional
+                <Link to="/catalog?category=combo" className="text-muted-foreground hover:text-primary transition-colors">
+                  Combo Bangles
                 </Link>
               </li>
               <li>
-                <Link to="/catalog?category=contemporary" className="text-muted-foreground hover:text-primary transition-colors">
-                  Contemporary
+                <Link to="/catalog?category=elegant" className="text-muted-foreground hover:text-primary transition-colors">
+                  Elegant Bangles
                 </Link>
               </li>
               <li>
-                <Link to="/catalog?category=luxury" className="text-muted-foreground hover:text-primary transition-colors">
-                  Luxury
+                <Link to="/catalog?category=olive" className="text-muted-foreground hover:text-primary transition-colors">
+                  Olive Bangles
+                </Link>
+              </li>
+               <li>
+                <Link to="/catalog?category=oreo" className="text-muted-foreground hover:text-primary transition-colors">
+                  Oreo Bangles
+                </Link>
+              </li>
+               <li>
+                <Link to="/catalog?category=pearl" className="text-muted-foreground hover:text-primary transition-colors">
+                  Pearl Bangles
+                </Link>
+              </li>
+               <li>
+                <Link to="/catalog?category=raindrop" className="text-muted-foreground hover:text-primary transition-colors">
+                  Raindrop Bangles
                 </Link>
               </li>
             </ul>

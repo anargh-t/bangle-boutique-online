@@ -25,10 +25,10 @@ export const products: Product[] = [
       "/BANGLES/COMBO/Yellow_Green_Combo2.jpg"
     ],
     variations: [
-      { color: "Yellow Green Combo", size: "2.2", price: 180 },
-      { color: "Yellow Green Combo", size: "2.4", price: 180 },
-      { color: "Yellow Green Combo", size: "2.6", price: 180 },
-      { color: "Yellow Green Combo", size: "2.8", price: 180 }
+      { color: "Yellow Green Combo", size: "2.2", price: 200 },
+      { color: "Yellow Green Combo", size: "2.4", price: 200 },
+      { color: "Yellow Green Combo", size: "2.6", price: 200 },
+      { color: "Yellow Green Combo", size: "2.8", price: 200 }
     ],
     category: "combo",
     featured: true
@@ -41,10 +41,10 @@ export const products: Product[] = [
       "/BANGLES/COMBO/Lavender_Wine_Combo1.jpg"
     ],
     variations: [
-      { color: "Lavender Wine Combo", size: "2.2", price: 180 },
-      { color: "Lavender Wine Combo", size: "2.4", price: 180 },
-      { color: "Lavender Wine Combo", size: "2.6", price: 180 },
-      { color: "Lavender Wine Combo", size: "2.8", price: 180 }
+      { color: "Lavender Wine Combo", size: "2.2", price: 200 },
+      { color: "Lavender Wine Combo", size: "2.4", price: 200 },
+      { color: "Lavender Wine Combo", size: "2.6", price: 200 },
+      { color: "Lavender Wine Combo", size: "2.8", price: 200 }
     ],
     category: "combo"
   },
@@ -58,26 +58,26 @@ export const products: Product[] = [
       "/BANGLES/ELEGANT_BANGLES/Elegant_Green.jpg"
     ],
     variations: [
-      { color: "Green", size: "2.2", price: 180 },
-      { color: "Green", size: "2.4", price: 180 },
-      { color: "Green", size: "2.6", price: 180 },
-      { color: "Green", size: "2.8", price: 180 }
+      { color: "Green", size: "2.2", price: 200 },
+      { color: "Green", size: "2.4", price: 200 },
+      { color: "Green", size: "2.6", price: 200 },
+      { color: "Green", size: "2.8", price: 200 }
     ],
     category: "elegant"
   },
   {
     id: "elegant-green-kundhan-1",
     name: "Elegant Green with Kundhan Bangle",
-    description: "Stunning green bangle adorned with kundhan work. The combination of green glass and kundhan creates a luxurious and traditional look.",
+    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Stunning green bangle adorned with kundhan work. The combination of green glass and kundhan creates a luxurious and traditional look.",
     images: [
       "/BANGLES/ELEGANT_BANGLES/Elegant_Green_with_Kundhan1.jpg",
       "/BANGLES/ELEGANT_BANGLES/Elegant_Green_with_Kundhan2.jpg"
     ],
     variations: [
-      { color: "Green with Kundhan", size: "2.2", price: 180 },
-      { color: "Green with Kundhan", size: "2.4", price: 180 },
-      { color: "Green with Kundhan", size: "2.6", price: 180 },
-      { color: "Green with Kundhan", size: "2.8", price: 180 }
+      { color: "Green with Kundhan", size: "2.2", price: 250 },
+      { color: "Green with Kundhan", size: "2.4", price: 250 },
+      { color: "Green with Kundhan", size: "2.6", price: 250 },
+      { color: "Green with Kundhan", size: "2.8", price: 250 }
     ],
     category: "elegant",
     featured: true
@@ -90,10 +90,10 @@ export const products: Product[] = [
       "/BANGLES/ELEGANT_BANGLES/Elegant_Green_and_Red1.jpg"
     ],
     variations: [
-      { color: "Green and Red", size: "2.2", price: 180 },
-      { color: "Green and Red", size: "2.4", price: 180 },
-      { color: "Green and Red", size: "2.6", price: 180 },
-      { color: "Green and Red", size: "2.8", price: 180 }
+      { color: "Green and Red", size: "2.2", price: 200 },
+      { color: "Green and Red", size: "2.4", price: 200 },
+      { color: "Green and Red", size: "2.6", price: 200 },
+      { color: "Green and Red", size: "2.8", price: 200 }
     ],
     category: "elegant"
   },
@@ -106,25 +106,25 @@ export const products: Product[] = [
       "/BANGLES/ELEGANT_BANGLES/Elegant_Red2.jpg"
     ],
     variations: [
-      { color: "Red", size: "2.2", price: 180 },
-      { color: "Red", size: "2.4", price: 180 },
-      { color: "Red", size: "2.6", price: 180 },
-      { color: "Red", size: "2.8", price: 180 }
+      { color: "Red", size: "2.2", price: 200 },
+      { color: "Red", size: "2.4", price: 200 },
+      { color: "Red", size: "2.6", price: 200 },
+      { color: "Red", size: "2.8", price: 200 }
     ],
     category: "elegant"
   },
   {
     id: "elegant-red-kundhan",
     name: "Elegant Red with Kundhan Bangle",
-    description: "Luxurious red bangle enhanced with kundhan work. The perfect blend of traditional red and intricate kundhan detailing.",
+    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Luxurious red bangle enhanced with kundhan work. The perfect blend of traditional red and intricate kundhan detailing.",
     images: [
       "/BANGLES/ELEGANT_BANGLES/Elegant_Red_with_Kundhan1.jpg"
     ],
     variations: [
-      { color: "Red with Kundhan", size: "2.2", price: 180 },
-      { color: "Red with Kundhan", size: "2.4", price: 180 },
-      { color: "Red with Kundhan", size: "2.6", price: 180 },
-      { color: "Red with Kundhan", size: "2.8", price: 180 }
+      { color: "Red with Kundhan", size: "2.2", price: 250 },
+      { color: "Red with Kundhan", size: "2.4", price: 250 },
+      { color: "Red with Kundhan", size: "2.6", price: 250 },
+      { color: "Red with Kundhan", size: "2.8", price: 250 }
     ],
     category: "elegant",
     featured: true
@@ -149,15 +149,15 @@ export const products: Product[] = [
   {
     id: "olive-green-kundhan",
     name: "Olive Green with Kundhan Bangle",
-    description: "Elegant olive green bangle adorned with kundhan work. The earthy tone combined with kundhan creates a sophisticated look.",
+    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Elegant olive green bangle adorned with kundhan work. The earthy tone combined with kundhan creates a sophisticated look.",
     images: [
       "/BANGLES/OLIVE/Olive_Green_with_Kundhan1.jpg"
     ],
     variations: [
-      { color: "Olive Green with Kundhan", size: "2.2", price: 200 },
-      { color: "Olive Green with Kundhan", size: "2.4", price: 200 },
-      { color: "Olive Green with Kundhan", size: "2.6", price: 200 },
-      { color: "Olive Green with Kundhan", size: "2.8", price: 200 }
+      { color: "Olive Green with Kundhan", size: "2.2", price: 250 },
+      { color: "Olive Green with Kundhan", size: "2.4", price: 250 },
+      { color: "Olive Green with Kundhan", size: "2.6", price: 250 },
+      { color: "Olive Green with Kundhan", size: "2.8", price: 250 }
     ],
     category: "olive",
     featured: true
@@ -173,25 +173,25 @@ export const products: Product[] = [
       "/BANGLES/OREO_BANGLES/Oreo_Red2.jpg"
     ],
     variations: [
-      { color: "Red", size: "2.2", price: 180 },
-      { color: "Red", size: "2.4", price: 180 },
-      { color: "Red", size: "2.6", price: 180 },
-      { color: "Red", size: "2.8", price: 180 }
+      { color: "Red", size: "2.2", price: 200 },
+      { color: "Red", size: "2.4", price: 200 },
+      { color: "Red", size: "2.6", price: 200 },
+      { color: "Red", size: "2.8", price: 200 }
     ],
     category: "oreo"
   },
   {
     id: "oreo-red-kundhan",
     name: "Oreo Red with Kundhan Bangle",
-    description: "Stunning oreo red bangle enhanced with kundhan work. The layered design combined with kundhan creates a luxurious appearance.",
+    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Stunning oreo red bangle enhanced with kundhan work. The layered design combined with kundhan creates a luxurious appearance.",
     images: [
       "/BANGLES/OREO_BANGLES/Oreo_Red_with_kundhan1.jpg"
     ],
     variations: [
-      { color: "Red with Kundhan", size: "2.2", price: 180 },
-      { color: "Red with Kundhan", size: "2.4", price: 180 },
-      { color: "Red with Kundhan", size: "2.6", price: 180 },
-      { color: "Red with Kundhan", size: "2.8", price: 180 }
+      { color: "Red with Kundhan", size: "2.2", price: 230 },
+      { color: "Red with Kundhan", size: "2.4", price: 230 },
+      { color: "Red with Kundhan", size: "2.6", price: 230 },
+      { color: "Red with Kundhan", size: "2.8", price: 230 }
     ],
     category: "oreo",
     featured: true
@@ -205,25 +205,25 @@ export const products: Product[] = [
       "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue2.jpg"
     ],
     variations: [
-      { color: "Peacock Blue", size: "2.2", price: 180 },
-      { color: "Peacock Blue", size: "2.4", price: 180 },
-      { color: "Peacock Blue", size: "2.6", price: 180 },
-      { color: "Peacock Blue", size: "2.8", price: 180 }
+      { color: "Peacock Blue", size: "2.2", price: 200 },
+      { color: "Peacock Blue", size: "2.4", price: 200 },
+      { color: "Peacock Blue", size: "2.6", price: 200 },
+      { color: "Peacock Blue", size: "2.8", price: 200 }
     ],
     category: "oreo"
   },
   {
     id: "oreo-peacock-blue-kundhan",
     name: "Oreo Peacock Blue with Kundhan Bangle",
-    description: "Luxurious oreo peacock blue bangle with kundhan embellishments. The combination creates a regal and sophisticated look.",
+    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Luxurious oreo peacock blue bangle with kundhan embellishments. The combination creates a regal and sophisticated look.",
     images: [
       "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue_with_Kundhan1.jpg"
     ],
     variations: [
-      { color: "Peacock Blue with Kundhan", size: "2.2", price: 180 },
-      { color: "Peacock Blue with Kundhan", size: "2.4", price: 180 },
-      { color: "Peacock Blue with Kundhan", size: "2.6", price: 180 },
-      { color: "Peacock Blue with Kundhan", size: "2.8", price: 180 }
+      { color: "Peacock Blue with Kundhan", size: "2.2", price: 250 },
+      { color: "Peacock Blue with Kundhan", size: "2.4", price: 250 },
+      { color: "Peacock Blue with Kundhan", size: "2.6", price: 250 },
+      { color: "Peacock Blue with Kundhan", size: "2.8", price: 250 }
     ],
     category: "oreo",
     featured: true
@@ -237,10 +237,10 @@ export const products: Product[] = [
       "/BANGLES/OREO_BANGLES/Oreo_Multi_Color2.jpg"
     ],
     variations: [
-      { color: "Multi Color", size: "2.2", price: 180 },
-      { color: "Multi Color", size: "2.4", price: 180 },
-      { color: "Multi Color", size: "2.6", price: 180 },
-      { color: "Multi Color", size: "2.8", price: 180 }
+      { color: "Multi Color", size: "2.2", price: 200 },
+      { color: "Multi Color", size: "2.4", price: 200 },
+      { color: "Multi Color", size: "2.6", price: 200 },
+      { color: "Multi Color", size: "2.8", price: 200 }
     ],
     category: "oreo",
     featured: true
@@ -255,10 +255,10 @@ export const products: Product[] = [
       "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Green1.jpg"
     ],
     variations: [
-      { color: "Green", size: "2.2", price: 180 },
-      { color: "Green", size: "2.4", price: 180 },
-      { color: "Green", size: "2.6", price: 180 },
-      { color: "Green", size: "2.8", price: 180 }
+      { color: "Green", size: "2.2", price: 160 },
+      { color: "Green", size: "2.4", price: 160 },
+      { color: "Green", size: "2.6", price: 160 },
+      { color: "Green", size: "2.8", price: 160 }
     ],
     category: "pearl"
   },
@@ -271,10 +271,10 @@ export const products: Product[] = [
       "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Pink2.jpg"
     ],
     variations: [
-      { color: "Pink", size: "2.2", price: 180 },
-      { color: "Pink", size: "2.4", price: 180 },
-      { color: "Pink", size: "2.6", price: 180 },
-      { color: "Pink", size: "2.8", price: 180 }
+      { color: "Pink", size: "2.2", price: 160 },
+      { color: "Pink", size: "2.4", price: 160 },
+      { color: "Pink", size: "2.6", price: 160 },
+      { color: "Pink", size: "2.8", price: 160 }
     ],
     category: "pearl"
   },
@@ -287,10 +287,10 @@ export const products: Product[] = [
       "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Rani_Pink2.jpg"
     ],
     variations: [
-      { color: "Rani Pink", size: "2.2", price: 180 },
-      { color: "Rani Pink", size: "2.4", price: 180 },
-      { color: "Rani Pink", size: "2.6", price: 180 },
-      { color: "Rani Pink", size: "2.8", price: 180 }
+      { color: "Rani Pink", size: "2.2", price: 160 },
+      { color: "Rani Pink", size: "2.4", price: 160 },
+      { color: "Rani Pink", size: "2.6", price: 160 },
+      { color: "Rani Pink", size: "2.8", price: 160 }
     ],
     category: "pearl",
     featured: true
@@ -303,10 +303,10 @@ export const products: Product[] = [
       "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Lavender1.jpg"
     ],
     variations: [
-      { color: "Lavender", size: "2.2", price: 180 },
-      { color: "Lavender", size: "2.4", price: 180 },
-      { color: "Lavender", size: "2.6", price: 180 },
-      { color: "Lavender", size: "2.8", price: 180 }
+      { color: "Lavender", size: "2.2", price: 160 },
+      { color: "Lavender", size: "2.4", price: 160 },
+      { color: "Lavender", size: "2.6", price: 160 },
+      { color: "Lavender", size: "2.8", price: 160 }
     ],
     category: "pearl"
   },
@@ -318,12 +318,28 @@ export const products: Product[] = [
       "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Yellow1.jpg"
     ],
     variations: [
-      { color: "Yellow", size: "2.2", price: 180 },
-      { color: "Yellow", size: "2.4", price: 180 },
-      { color: "Yellow", size: "2.6", price: 180 },
-      { color: "Yellow", size: "2.8", price: 180 }
+      { color: "Yellow", size: "2.2", price: 160 },
+      { color: "Yellow", size: "2.4", price: 160 },
+      { color: "Yellow", size: "2.6", price: 160 },
+      { color: "Yellow", size: "2.8", price: 160 }
     ],
     category: "pearl"
+  },
+  {
+    id: "pearl-with-kundhan",
+    name: "Pearl Bangle with Kundhan",
+    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Elegant pearl bangle enhanced with beautiful kundhan work. The combination of pearl finish and kundhan creates a luxurious and sophisticated appearance.",
+    images: [
+      "/BANGLES/PEARL_BANGLE/Pearl_Bangles_with_Kundhan1.jpg"
+    ],
+    variations: [
+      { color: "Pearl with Kundhan", size: "2.2", price: 190 },
+      { color: "Pearl with Kundhan", size: "2.4", price: 190 },
+      { color: "Pearl with Kundhan", size: "2.6", price: 190 },
+      { color: "Pearl with Kundhan", size: "2.8", price: 190 }
+    ],
+    category: "pearl",
+    featured: true
   },
 
   // RAINDROP BANGLES
