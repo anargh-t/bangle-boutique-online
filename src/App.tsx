@@ -15,6 +15,10 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import SizeGuide from "./pages/SizeGuide";
+import ShippingReturns from "./pages/ShippingReturns";
+import FAQ from "./pages/FAQ";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -25,6 +29,7 @@ const App = () => (
         <Toaster />
         <Sonner />
         <BrowserRouter>
+          <ScrollToTop />
           <Navbar />
           <main className="min-h-screen">
             <Routes>
@@ -34,6 +39,9 @@ const App = () => (
               <Route path="/cart" element={<Cart />} />
               <Route path="/about" element={<About />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/size-guide" element={<SizeGuide />} />
+              <Route path="/shipping" element={<ShippingReturns />} />
+              <Route path="/faq" element={<FAQ />} />
               {/* <Route path="/checkout" element={<Checkout />} /> */}
               {/* <Route path="/order-success" element={<OrderSuccess />} /> */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

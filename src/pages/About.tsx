@@ -1,7 +1,7 @@
 import React from 'react';
 
 const About = () => (
-  <section className="py-16 bg-white min-h-screen flex items-center">
+  <section className="py-16 bg-white min-h-screen flex items-center pt-24">
     <div className="container mx-auto px-4 text-center max-w-2xl">
       <h1 className="font-serif text-4xl font-bold mb-6 text-primary">About Kuppivala</h1>
       <p className="text-muted-foreground text-lg">

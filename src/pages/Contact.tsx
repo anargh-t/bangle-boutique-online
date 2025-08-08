@@ -2,7 +2,7 @@ import React from 'react';
 import { Instagram, Facebook, Youtube } from 'lucide-react';
 
 const Contact = () => (
-  <section className="py-16 bg-white min-h-screen flex items-center">
+  <section className="py-16 bg-white min-h-screen flex items-center pt-24">
     <div className="container mx-auto px-4 text-center max-w-xl">
       <h1 className="font-serif text-4xl font-bold mb-6 text-primary">Contact Us</h1>
       <div className="mb-6 text-lg text-muted-foreground">
@@ -13,7 +13,7 @@ const Contact = () => (
         <a href="https://www.instagram.com/kuppivala_by_gg?igsh=MXh4andyOTc5Y200Nw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
           <Instagram size={32} />
         </a>
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors">
+        <a href="https://www.facebook.com/share/1Nf4QNkTXH/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="text-muted-foreground hover:text-primary transition-colors">
           <Facebook size={32} />
         </a>
         <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" aria-label="YouTube" className="text-muted-foreground hover:text-primary transition-colors">
