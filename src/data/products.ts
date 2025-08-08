@@ -475,3 +475,30 @@ export const getProductsByCategory = (category: string): Product[] => {
   }
   return products.filter(product => product.category === category);
 };
+
+export const getRelatedProducts = (currentProduct: Product, limit: number = 4): Product[] => {
+  // First, try to get products from the same category
+  const sameCategoryProducts = products.filter(
+    product => product.category === currentProduct.category && product.id !== currentProduct.id
+  );
+  
+  // If we have enough products from the same category, return them
+  if (sameCategoryProducts.length >= limit) {
+    return sameCategoryProducts.slice(0, limit);
+  }
+  
+  // If not enough from same category, add featured products from other categories
+  const otherFeaturedProducts = products.filter(
+    product => product.category !== currentProduct.category && product.featured && product.id !== currentProduct.id
+  );
+  
+  // Combine same category products with featured products from other categories
+  const combined = [...sameCategoryProducts, ...otherFeaturedProducts];
+  
+  // Remove duplicates and return up to the limit
+  const uniqueProducts = combined.filter((product, index, self) => 
+    index === self.findIndex(p => p.id === product.id)
+  );
+  
+  return uniqueProducts.slice(0, limit);
+};

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getProductById, Product, Variation } from '@/data/products';
+import { getProductById, getRelatedProducts, Product, Variation } from '@/data/products';
 import { Button } from '@/components/ui/button';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
@@ -24,6 +24,10 @@ const ProductDetail = () => {
   
   // Related products (in a real app, we'd get these based on category/tags)
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+  
+  // Touch/swipe functionality
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
   useEffect(() => {
     if (!id) return;
@@ -44,13 +48,9 @@ const ProductDetail = () => {
           setSelectedColor(uniqueColors[0]);
         }
         
-        // Get related products (just grabbing other products for demo)
-        const tempRelated = Array.from({ length: 3 }, () => {
-          const randomId = Math.floor(Math.random() * 6) + 1;
-          return getProductById(randomId.toString());
-        }).filter(Boolean) as Product[];
-        
-        setRelatedProducts(tempRelated);
+        // Get related products using the new function
+        const related = getRelatedProducts(foundProduct, 4);
+        setRelatedProducts(related);
       }
       
       setIsLoading(false);
@@ -101,6 +101,36 @@ const ProductDetail = () => {
     }
     
     addToCart(product, selectedVariation, quantity);
+  };
+
+  // Touch/swipe handlers
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > 50;
+    const isRightSwipe = distance < -50;
+
+    if (isLeftSwipe && product) {
+      // Swipe left - next image
+      const currentIndex = product.images.indexOf(selectedImage);
+      const nextIndex = (currentIndex + 1) % product.images.length;
+      setSelectedImage(product.images[nextIndex]);
+    } else if (isRightSwipe && product) {
+      // Swipe right - previous image
+      const currentIndex = product.images.indexOf(selectedImage);
+      const prevIndex = currentIndex === 0 ? product.images.length - 1 : currentIndex - 1;
+      setSelectedImage(product.images[prevIndex]);
+    }
   };
   
   useEffect(() => {
@@ -166,12 +196,32 @@ const ProductDetail = () => {
           {/* Product Images */}
           <div className="lg:w-1/2 space-y-4">
             {/* Main Image */}
-            <div className="aspect-square bg-muted/30 rounded-lg overflow-hidden">
+            <div 
+              className="aspect-square bg-muted/30 rounded-lg overflow-hidden relative"
+              onTouchStart={onTouchStart}
+              onTouchMove={onTouchMove}
+              onTouchEnd={onTouchEnd}
+            >
               <img 
                 src={selectedImage} 
                 alt={product.name}
                 className="w-full h-full object-cover"
               />
+              {/* Swipe indicator */}
+              {product.images.length > 1 && (
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+                  {product.images.map((_, index) => (
+                    <div
+                      key={index}
+                      className={`w-2 h-2 rounded-full ${
+                        product.images[index] === selectedImage 
+                          ? 'bg-white' 
+                          : 'bg-white/50'
+                      }`}
+                    />
+                  ))}
+                </div>
+              )}
             </div>
             
             {/* Thumbnail Images */}
@@ -304,14 +354,24 @@ const ProductDetail = () => {
         <Separator className="my-12" />
         
         {/* Related Products */}
-        <div>
-          <h2 className="font-serif text-2xl font-bold mb-6">You May Also Like</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            {relatedProducts.map(relatedProduct => (
-              <ProductCard key={relatedProduct.id} product={relatedProduct} />
-            ))}
+        {relatedProducts.length > 0 && (
+          <div className="mt-16">
+            <div className="text-center mb-8">
+              <h2 className="font-serif text-3xl font-bold mb-2">You May Also Like</h2>
+              <p className="text-muted-foreground">Discover more beautiful bangles from our collection</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+              {relatedProducts.map(relatedProduct => (
+                <ProductCard key={relatedProduct.id} product={relatedProduct} />
+              ))}
+            </div>
+            <div className="text-center mt-8">
+              <Button asChild variant="outline">
+                <Link to="/catalog">View All Products</Link>
+              </Button>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

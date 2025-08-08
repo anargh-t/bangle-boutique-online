@@ -18,6 +18,7 @@ import Contact from "./pages/Contact";
 import SizeGuide from "./pages/SizeGuide";
 import ShippingReturns from "./pages/ShippingReturns";
 import FAQ from "./pages/FAQ";
+import Search from "./pages/Search";
 import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
@@ -42,6 +43,7 @@ const App = () => (
               <Route path="/size-guide" element={<SizeGuide />} />
               <Route path="/shipping" element={<ShippingReturns />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/search" element={<Search />} />
               {/* <Route path="/checkout" element={<Checkout />} /> */}
               {/* <Route path="/order-success" element={<OrderSuccess />} /> */}
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
