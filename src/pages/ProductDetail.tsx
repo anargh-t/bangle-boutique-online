@@ -178,7 +178,6 @@ const ProductDetail = () => {
     );
   }
 
-  // Calculate the price with discount if applicable
   const price = selectedVariation?.price || 0;
   
   return (
@@ -289,27 +288,28 @@ const ProductDetail = () => {
                 </Select>
               </div>
               
-              {/* Size Selection */}
+              {/* Size Selection - boxes */}
               <div>
-                <label htmlFor="size-select" className="block text-sm font-medium mb-2">
-                  Size
-                </label>
-                <Select
-                  value={selectedSize}
-                  onValueChange={setSelectedSize}
-                  disabled={!selectedColor || availableVariations.length === 0}
-                >
-                  <SelectTrigger id="size-select" className="w-full">
-                    <SelectValue placeholder="Select Size" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {availableVariations.map(variation => (
-                      <SelectItem key={variation.size} value={variation.size}>
-                        {variation.size} inches
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <label className="block text-sm font-medium mb-2">Size</label>
+                <div className="flex gap-3 flex-wrap">
+                  {availableVariations.map(variation => {
+                    const isActive = selectedSize === variation.size;
+                    return (
+                      <button
+                        key={variation.size}
+                        type="button"
+                        onClick={() => setSelectedSize(variation.size)}
+                        className={`min-w-[56px] px-4 py-2 rounded-md border text-sm transition-colors ${
+                          isActive
+                            ? 'border-primary text-primary bg-primary/10'
+                            : 'border-input text-foreground hover:bg-accent'
+                        }`}
+                      >
+                        {variation.size}
+                      </button>
+                    );
+                  })}
+                </div>
               </div>
               
               {/* Quantity */}
