@@ -38,8 +38,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const calculateTotalPrice = (): number => {
     return items.reduce((total, item) => {
       const itemPrice = item.variation.price;
-      const discountFactor = item.product.offer.type === 'discount' ? 1 - item.product.offer.value : 1;
-      return total + (itemPrice * discountFactor * item.quantity);
+      return total + itemPrice * item.quantity;
     }, 0);
   };
 

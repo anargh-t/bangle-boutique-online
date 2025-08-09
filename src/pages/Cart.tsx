@@ -1,12 +1,49 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import { toast } from '@/components/ui/sonner';
 import { X, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
 
 const Cart = () => {
   const { items, totalPrice, removeFromCart, updateQuantity } = useCart();
+
+  // Customer details for WhatsApp order
+  const [customerName, setCustomerName] = useState('');
+  const [customerPhone, setCustomerPhone] = useState('');
+  const [shippingAddress, setShippingAddress] = useState('');
+  const [notes, setNotes] = useState('');
+
+  const currency = (n: number) => `₹${n.toFixed(2)}`;
+
+  const orderText = useMemo(() => {
+    const lines = items.map((item, idx) => {
+      const lineTotal = item.variation.price * item.quantity;
+      return `${idx + 1}. ${item.product.name} - ${item.variation.color}, Size ${item.variation.size}, Qty ${item.quantity} x ${currency(item.variation.price)} = ${currency(lineTotal)}`;
+    }).join('\n');
+
+    const addressBlock = shippingAddress ? `\nAddress: ${shippingAddress}` : '';
+    const notesBlock = notes ? `\nNotes: ${notes}` : '';
+
+    return `Hello Kuppivala,\n\nNew order request:\n\nCustomer:\n- Name: ${customerName || '(not provided)'}\n- Phone: ${customerPhone || '(not provided)'}${addressBlock}${notesBlock}\n\nItems:\n${lines}\n\nSubtotal: ${currency(totalPrice)}\n\nPlease confirm availability, shipping charges, and payment details.`;
+  }, [items, totalPrice, customerName, customerPhone, shippingAddress, notes]);
+
+  const handleSendWhatsApp = () => {
+    if (!customerName.trim() || !customerPhone.trim() || !shippingAddress.trim()) {
+      toast.error('Please fill Name, Phone, and Address to continue.');
+      return;
+    }
+    const phoneDigits = customerPhone.replace(/\D/g, '');
+    if (phoneDigits.length < 10) {
+      toast.error('Please enter a valid phone number.');
+      return;
+    }
+    const waLink = `https://wa.me/917012849883?text=${encodeURIComponent(orderText)}`;
+    window.open(waLink, '_blank');
+  };
   
   // Check if cart is empty
   if (items.length === 0) {
@@ -45,8 +82,7 @@ const Cart = () => {
             {/* Cart Items */}
             <div className="space-y-4">
               {items.map((item, index) => {
-                const discountFactor = item.product.offer.type === 'discount' ? 1 - item.product.offer.value : 1;
-                const itemPrice = item.variation.price * discountFactor;
+                const itemPrice = item.variation.price;
                 const totalItemPrice = itemPrice * item.quantity;
                 
                 return (
@@ -75,12 +111,7 @@ const Cart = () => {
                           {/* Mobile Price */}
                           <div className="md:hidden mt-2">
                             <p className="text-sm">
-                              Price: <span className="font-medium">₹{itemPrice.toFixed(2)}</span>
-                              {item.product.offer.type === 'discount' && (
-                                <span className="text-xs text-destructive ml-1">
-                                  ({(item.product.offer.value * 100).toFixed(0)}% OFF)
-                                </span>
-                              )}
+                              Price: <span className="font-medium">{currency(itemPrice)}</span>
                             </p>
                           </div>
                         </div>
@@ -88,123 +119,91 @@ const Cart = () => {
                       
                       {/* Desktop Price */}
                       <div className="hidden md:block md:col-span-2 text-center">
-                        <p>
-                          ₹{itemPrice.toFixed(2)}
-                          {item.product.offer.type === 'discount' && (
-                            <span className="block text-xs text-destructive">
-                              ({(item.product.offer.value * 100).toFixed(0)}% OFF)
-                            </span>
-                          )}
-                        </p>
+                        <p>{currency(itemPrice)}</p>
                       </div>
                       
-                      {/* Quantity Controls */}
-                      <div className="md:col-span-2">
-                        <div className="flex items-center justify-center border rounded-md">
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-8 w-8"
-                            onClick={() => updateQuantity(index, item.quantity - 1)}
-                          >
-                            <Minus className="h-3 w-3" />
-                          </Button>
-                          
-                          <input 
-                            type="text" 
-                            value={item.quantity} 
-                            readOnly 
-                            className="w-10 text-center border-y-0 border-x focus:ring-0 focus:outline-none" 
-                          />
-                          
-                          <Button 
-                            variant="ghost" 
-                            size="icon" 
-                            className="h-8 w-8"
-                            onClick={() => updateQuantity(index, item.quantity + 1)}
-                          >
-                            <Plus className="h-3 w-3" />
-                          </Button>
-                        </div>
-                      </div>
-                      
-                      {/* Total Price */}
-                      <div className="md:col-span-2 flex items-center justify-between md:justify-end">
-                        <span className="md:hidden">Total:</span>
-                        <span className="font-medium">₹{totalItemPrice.toFixed(2)}</span>
-                      </div>
-                      
-                      {/* Remove Button */}
-                      <div className="col-span-1 flex justify-end">
-                        <Button 
-                          variant="ghost" 
-                          size="icon" 
-                          onClick={() => removeFromCart(index)} 
-                          className="h-8 w-8 text-muted-foreground hover:text-destructive"
+                      {/* Quantity */}
+                      <div className="md:col-span-2 flex items-center justify-center gap-2">
+                        <button 
+                          className="p-2 rounded-md border"
+                          onClick={() => updateQuantity(index, Math.max(1, item.quantity - 1))}
+                          aria-label="Decrease quantity"
                         >
-                          <X className="h-4 w-4" />
-                        </Button>
+                          <Minus className="h-4 w-4" />
+                        </button>
+                        <input 
+                          type="number" 
+                          value={item.quantity}
+                          onChange={(e) => updateQuantity(index, Math.max(1, parseInt(e.target.value) || 1))}
+                          className="w-14 text-center border rounded-md h-9"
+                          min={1}
+                        />
+                        <button 
+                          className="p-2 rounded-md border"
+                          onClick={() => updateQuantity(index, item.quantity + 1)}
+                          aria-label="Increase quantity"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </button>
                       </div>
+                      
+                      {/* Total */}
+                      <div className="md:col-span-2 text-right font-medium">
+                        {currency(totalItemPrice)}
+                      </div>
+                      
+                      {/* Remove */}
+                      <button 
+                        className="absolute top-2 right-2 p-1 rounded-md hover:bg-muted"
+                        onClick={() => removeFromCart(index)}
+                        aria-label="Remove item"
+                      >
+                        <X className="h-4 w-4" />
+                      </button>
                     </div>
                   </div>
                 );
               })}
             </div>
-            
-            {/* Continue Shopping Button */}
-            <div className="mt-8">
-              <Button variant="outline" asChild>
-                <Link to="/catalog">Continue Shopping</Link>
-              </Button>
-            </div>
           </div>
-          
-          {/* Order Summary */}
+
+          {/* Summary */}
           <div className="lg:w-1/3">
-            <div className="border rounded-lg p-6 bg-muted/30 sticky top-24">
-              <h2 className="font-serif text-xl font-bold mb-6">Order Summary</h2>
-              
-              {/* Summary Items */}
-              <div className="space-y-4 mb-6">
-                <div className="flex justify-between text-sm">
-                  <span>Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})</span>
-                  <span className="font-medium">₹{totalPrice.toFixed(2)}</span>
+            <div className="border rounded-lg p-6 sticky top-24 space-y-4">
+              <h2 className="font-semibold text-xl">Order Summary</h2>
+              <div className="flex justify-between">
+                <span>Subtotal</span>
+                <span>{currency(totalPrice)}</span>
+              </div>
+
+              <Separator />
+
+              {/* Customer Details */}
+              <div className="space-y-3">
+                <div>
+                  <label className="block text-sm font-medium mb-1">Full Name</label>
+                  <Input value={customerName} onChange={(e) => setCustomerName(e.target.value)} placeholder="Your name" />
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span>Shipping</span>
-                  <span>Calculated at checkout</span>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Phone Number (WhatsApp)</label>
+                  <Input value={customerPhone} onChange={(e) => setCustomerPhone(e.target.value)} placeholder="e.g. 7012849883" />
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span>Tax</span>
-                  <span>Calculated at checkout</span>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Shipping Address</label>
+                  <Textarea value={shippingAddress} onChange={(e) => setShippingAddress(e.target.value)} placeholder="House/Street, Area, City, Pincode" />
+                </div>
+                <div>
+                  <label className="block text-sm font-medium mb-1">Notes (optional)</label>
+                  <Textarea value={notes} onChange={(e) => setNotes(e.target.value)} placeholder="Any special instructions" />
                 </div>
               </div>
-              
-              <Separator className="my-4" />
-              
-              {/* Total */}
-              <div className="flex justify-between font-medium text-lg mb-6">
-                <span>Estimated Total</span>
-                <span>₹{totalPrice.toFixed(2)}</span>
-              </div>
-              
-              {/* Checkout Button */}
-              {/* <Button asChild className="w-full">
-                <Link to="/checkout">
-                  Proceed to Checkout <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button> */}
-              
-              {/* Payment Methods */}
-              {/*
-                <p className="mb-2">We accept:</p>
-                <div className="flex justify-center space-x-2">
-                  <div className="h-6 w-10 bg-muted rounded">Visa</div>
-                  <div className="h-6 w-10 bg-muted rounded">MC</div>
-                  <div className="h-6 w-10 bg-muted rounded">Amex</div>
-                  <div className="h-6 w-10 bg-muted rounded">PayPal</div>
-                </div>
-              */}
+
+              <Separator />
+
+              <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleSendWhatsApp}>
+                Send Order via WhatsApp
+              </Button>
+              <p className="text-xs text-muted-foreground">We will reply on WhatsApp to confirm availability, shipping charges, and payment details.</p>
             </div>
           </div>
         </div>
