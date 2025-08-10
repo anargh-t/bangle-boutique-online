@@ -46,7 +46,7 @@ const ShippingReturns = () => {
                    <div>
                      <h3 className="font-semibold text-lg mb-2">Delivery Time</h3>
                      <p className="text-muted-foreground">
-                       Standard delivery typically takes 14 business days within India. 
+                       Standard delivery typically takes 7-14 business days within India. 
                        Delivery times may vary based on your location and current order volume.
                      </p>
                    </div>

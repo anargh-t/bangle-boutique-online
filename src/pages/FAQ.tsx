@@ -38,7 +38,7 @@ const FAQ = () => {
     },
     {
       question: "How long does delivery take?",
-      answer: "Standard delivery typically takes 14 business days within India. Delivery times may vary based on your location and current order volume."
+      answer: "Standard delivery typically takes 7-14 business days within India. Delivery times may vary based on your location and current order volume."
     },
     {
       question: "Do you accept returns or refunds?",

@@ -47,24 +47,28 @@ const SizeGuide = () => {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-3">
-                <h3 className="font-semibold text-lg">Using a String</h3>
+                <h3 className="font-semibold text-lg">Using an Existing Bangle (Based on Inner Diameter)</h3>
+                <p className="text-muted-foreground mb-3">
+                  If you already have a bangle that fits well, you can quickly find your bangle size using its inner diameter:
+                </p>
                 <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                  <li>Wrap a string around your hand at the widest part (knuckles)</li>
-                  <li>Mark where the string meets</li>
-                  <li>Measure the length of the string</li>
-                  <li>Use our size chart to find your corresponding bangle size</li>
+                  <li><strong>Select a Bangle That Fits Well</strong><br />
+                    Choose an existing bangle that easily fits over your hand and sits comfortably.</li>
+                  <li><strong>Measure Its Inner Diameter</strong><br />
+                    Place the bangle on a flat surface. Using a ruler or a measuring tape, measure the inner diameter of the bangle in centimeters (CM). Take the measurement straight across the inside of the bangle from one side to the other.</li>
+                  <li><strong>Compare with the Size Chart</strong><br />
+                    Match your bangle's measured inner diameter to the closest value in the size chart.</li>
+                  <li><strong>Choose Your Size</strong><br />
+                    Identify the corresponding "Size" based on your measurement.</li>
                 </ol>
+                
+                <div className="mt-4 p-4 bg-primary/10 rounded-lg">
+                  <h4 className="font-semibold mb-2">💡 Example</h4>
+                  <p className="text-sm text-muted-foreground">
+                    If your bangle's inner diameter is 6.00CM, your bangle size is 2.6.
+                  </p>
+                </div>
               </div>
-              
-              {/* <div className="space-y-3">
-                <h3 className="font-semibold text-lg">Method 2: Using a Ring</h3>
-                <ol className="list-decimal list-inside space-y-2 text-muted-foreground">
-                  <li>Find a ring that fits your middle finger</li>
-                  <li>Measure the inner diameter of the ring</li>
-                  <li>Multiply by 3.14 to get the circumference</li>
-                  <li>Compare with our size chart measurements</li>
-                </ol>
-              </div> */}
             </CardContent>
           </Card>
 

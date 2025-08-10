@@ -7,7 +7,7 @@ const Contact = () => (
       <h1 className="font-serif text-4xl font-bold mb-6 text-primary">Contact Us</h1>
       <div className="mb-6 text-lg text-muted-foreground">
         <div className="mb-2">Phone: <a href="tel:+917012849883" className="text-primary hover:underline">+91 70128 49883</a></div>
-        <div className="mb-2">Email: </div>
+        <div className="mb-2">Email: <a href="mailto:kuppivalabygg@gmail.com" className="text-primary hover:underline">kuppivalabygg@gmail.com</a></div>
       </div>
       <div className="flex justify-center gap-6 mt-8">
         <a href="https://www.instagram.com/kuppivala_by_gg?igsh=MXh4andyOTc5Y200Nw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="text-muted-foreground hover:text-primary transition-colors">
