@@ -1,7 +1,12 @@
+import { supabase } from '../lib/supabase';
+
 export interface Variation {
+  id: string;
   color: string;
   size: string;
   price: number;
+  stock: number;
+  active: boolean;
 }
 
 export interface Product {
@@ -14,491 +19,343 @@ export interface Product {
   featured?: boolean;
 }
 
-export const products: Product[] = [
-  // COMBO BANGLES
-  {
-    id: "combo-yellow-green-1",
-    name: "Yellow Green Combo Bangle Set",
-    description: "Beautiful combination of yellow and green bangles perfect for festive occasions. This set features vibrant colors that complement traditional Indian attire beautifully.",
-    images: [
-      "/BANGLES/COMBO/Yellow_Green_Combo1.jpg",
-      "/BANGLES/COMBO/Yellow_Green_Combo2.jpg"
-    ],
-    variations: [
-      { color: "Yellow Green Combo", size: "2.2", price: 200 },
-      { color: "Yellow Green Combo", size: "2.4", price: 200 },
-      { color: "Yellow Green Combo", size: "2.6", price: 200 },
-      { color: "Yellow Green Combo", size: "2.8", price: 200 }
-    ],
-    category: "combo",
-    featured: true
-  },
-  {
-    id: "combo-lavender-wine",
-    name: "Lavender Wine Combo Bangle Set",
-    description: "Elegant combination of lavender and wine colored bangles. Perfect for adding sophistication to any traditional or contemporary outfit.",
-    images: [
-      "/BANGLES/COMBO/Lavender_Wine_Combo1.jpg"
-    ],
-    variations: [
-      { color: "Lavender Wine Combo", size: "2.2", price: 200 },
-      { color: "Lavender Wine Combo", size: "2.4", price: 200 },
-      { color: "Lavender Wine Combo", size: "2.6", price: 200 },
-      { color: "Lavender Wine Combo", size: "2.8", price: 200 }
-    ],
-    category: "combo"
-  },
+// Supabase database functions
+export const fetchProducts = async (): Promise<Product[]> => {
+  try {
+    const { data: products, error } = await supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description,
+        images,
+        category,
+        featured,
+        variations (
+          id,
+          color,
+          size,
+          price,
+          stock,
+          active
+        )
+      `)
+      .order('featured', { ascending: false })
+      .order('name');
 
-  // ELEGANT BANGLES
-  {
-    id: "elegant-green",
-    name: "Elegant Green Bangle",
-    description: "Sophisticated green bangle with elegant design. Perfect for traditional occasions and adds a touch of grace to any ensemble.",
-    images: [
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Green.jpg"
-    ],
-    variations: [
-      { color: "Green", size: "2.2", price: 200 },
-      { color: "Green", size: "2.4", price: 200 },
-      { color: "Green", size: "2.6", price: 200 },
-      { color: "Green", size: "2.8", price: 200 }
-    ],
-    category: "elegant"
-  },
-  {
-    id: "elegant-green-kundhan-1",
-    name: "Elegant Green with Kundhan Bangle",
-    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Stunning green bangle adorned with kundhan work. The combination of green glass and kundhan creates a luxurious and traditional look.",
-    images: [
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Green_with_Kundhan1.jpg",
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Green_with_Kundhan2.jpg"
-    ],
-    variations: [
-      { color: "Green with Kundhan", size: "2.2", price: 250 },
-      { color: "Green with Kundhan", size: "2.4", price: 250 },
-      { color: "Green with Kundhan", size: "2.6", price: 250 },
-      { color: "Green with Kundhan", size: "2.8", price: 250 }
-    ],
-    category: "elegant",
-    featured: true
-  },
-  {
-    id: "elegant-green-red",
-    name: "Elegant Green and Red Bangle",
-    description: "Beautiful combination of green and red in an elegant design. Perfect for festive occasions and traditional celebrations.",
-    images: [
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Green_and_Red1.jpg"
-    ],
-    variations: [
-      { color: "Green and Red", size: "2.2", price: 200 },
-      { color: "Green and Red", size: "2.4", price: 200 },
-      { color: "Green and Red", size: "2.6", price: 200 },
-      { color: "Green and Red", size: "2.8", price: 200 }
-    ],
-    category: "elegant"
-  },
-  {
-    id: "elegant-red-1",
-    name: "Elegant Red Bangle",
-    description: "Classic red bangle with elegant design. A timeless piece that adds warmth and tradition to any outfit.",
-    images: [
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Red1.jpg",
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Red2.jpg"
-    ],
-    variations: [
-      { color: "Red", size: "2.2", price: 200 },
-      { color: "Red", size: "2.4", price: 200 },
-      { color: "Red", size: "2.6", price: 200 },
-      { color: "Red", size: "2.8", price: 200 }
-    ],
-    category: "elegant"
-  },
-  {
-    id: "elegant-red-kundhan",
-    name: "Elegant Red with Kundhan Bangle",
-    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Luxurious red bangle enhanced with kundhan work. The perfect blend of traditional red and intricate kundhan detailing.",
-    images: [
-      "/BANGLES/ELEGANT_BANGLES/Elegant_Red_with_Kundhan1.jpg"
-    ],
-    variations: [
-      { color: "Red with Kundhan", size: "2.2", price: 250 },
-      { color: "Red with Kundhan", size: "2.4", price: 250 },
-      { color: "Red with Kundhan", size: "2.6", price: 250 },
-      { color: "Red with Kundhan", size: "2.8", price: 250 }
-    ],
-    category: "elegant",
-    featured: true
-  },
+    if (error) {
+      console.error('Error fetching products:', error);
+      throw error;
+    }
 
-  // OLIVE BANGLES
-  {
-    id: "olive-green",
-    name: "Olive Green Bangle",
-    description: "Sophisticated olive green bangle with a unique earthy tone. Perfect for those who prefer subtle, elegant colors.",
-    images: [
-      "/BANGLES/OLIVE/Olive_Green1.jpg"
-    ],
-    variations: [
-      { color: "Olive Green", size: "2.2", price: 200 },
-      { color: "Olive Green", size: "2.4", price: 200 },
-      { color: "Olive Green", size: "2.6", price: 200 },
-      { color: "Olive Green", size: "2.8", price: 200 }
-    ],
-    category: "olive"
-  },
-  {
-    id: "olive-green-kundhan",
-    name: "Olive Green with Kundhan Bangle",
-    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Elegant olive green bangle adorned with kundhan work. The earthy tone combined with kundhan creates a sophisticated look.",
-    images: [
-      "/BANGLES/OLIVE/Olive_Green_with_Kundhan1.jpg"
-    ],
-    variations: [
-      { color: "Olive Green with Kundhan", size: "2.2", price: 250 },
-      { color: "Olive Green with Kundhan", size: "2.4", price: 250 },
-      { color: "Olive Green with Kundhan", size: "2.6", price: 250 },
-      { color: "Olive Green with Kundhan", size: "2.8", price: 250 }
-    ],
-    category: "olive",
-    featured: true
-  },
-
-  // OREO BANGLES
-  {
-    id: "oreo-red-1",
-    name: "Oreo Red Bangle",
-    description: "Classic oreo style red bangle with a unique layered design. The oreo pattern adds texture and visual interest to this traditional piece.",
-    images: [
-      "/BANGLES/OREO_BANGLES/Oreo_Red1.jpg",
-      "/BANGLES/OREO_BANGLES/Oreo_Red2.jpg"
-    ],
-    variations: [
-      { color: "Red", size: "2.2", price: 200 },
-      { color: "Red", size: "2.4", price: 200 },
-      { color: "Red", size: "2.6", price: 200 },
-      { color: "Red", size: "2.8", price: 200 }
-    ],
-    category: "oreo"
-  },
-  {
-    id: "oreo-red-kundhan",
-    name: "Oreo Red with Kundhan Bangle",
-    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Stunning oreo red bangle enhanced with kundhan work. The layered design combined with kundhan creates a luxurious appearance.",
-    images: [
-      "/BANGLES/OREO_BANGLES/Oreo_Red_with_kundhan1.jpg"
-    ],
-    variations: [
-      { color: "Red with Kundhan", size: "2.2", price: 230 },
-      { color: "Red with Kundhan", size: "2.4", price: 230 },
-      { color: "Red with Kundhan", size: "2.6", price: 230 },
-      { color: "Red with Kundhan", size: "2.8", price: 230 }
-    ],
-    category: "oreo",
-    featured: true
-  },
-  {
-    id: "oreo-peacock-blue-1",
-    name: "Oreo Peacock Blue Bangle",
-    description: "Beautiful oreo style bangle in peacock blue. The layered design in this vibrant color creates a stunning visual effect.",
-    images: [
-      "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue1.jpg",
-      "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue2.jpg"
-    ],
-    variations: [
-      { color: "Peacock Blue", size: "2.2", price: 200 },
-      { color: "Peacock Blue", size: "2.4", price: 200 },
-      { color: "Peacock Blue", size: "2.6", price: 200 },
-      { color: "Peacock Blue", size: "2.8", price: 200 }
-    ],
-    category: "oreo"
-  },
-  {
-    id: "oreo-peacock-blue-kundhan",
-    name: "Oreo Peacock Blue with Kundhan Bangle",
-    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Luxurious oreo peacock blue bangle with kundhan embellishments. The combination creates a regal and sophisticated look.",
-    images: [
-      "/BANGLES/OREO_BANGLES/Oreo_PeacockBlue_with_Kundhan1.jpg"
-    ],
-    variations: [
-      { color: "Peacock Blue with Kundhan", size: "2.2", price: 250 },
-      { color: "Peacock Blue with Kundhan", size: "2.4", price: 250 },
-      { color: "Peacock Blue with Kundhan", size: "2.6", price: 250 },
-      { color: "Peacock Blue with Kundhan", size: "2.8", price: 250 }
-    ],
-    category: "oreo",
-    featured: true
-  },
-  {
-    id: "oreo-multi-color-1",
-    name: "Oreo Multi Color Bangle",
-    description: "Vibrant oreo style bangle featuring multiple colors. Perfect for adding a pop of color and fun to any outfit.",
-    images: [
-      "/BANGLES/OREO_BANGLES/Oreo_Multi_Color1.jpg",
-      "/BANGLES/OREO_BANGLES/Oreo_Multi_Color2.jpg"
-    ],
-    variations: [
-      { color: "Multi Color", size: "2.2", price: 200 },
-      { color: "Multi Color", size: "2.4", price: 200 },
-      { color: "Multi Color", size: "2.6", price: 200 },
-      { color: "Multi Color", size: "2.8", price: 200 }
-    ],
-    category: "oreo",
-    featured: true
-  },
-
-  // PEARL BANGLES
-  {
-    id: "pearl-green",
-    name: "Pearl Bangle - Green",
-    description: "Elegant pearl bangle in a beautiful green shade. The pearl finish adds a sophisticated and luxurious touch to this piece.",
-    images: [
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Green1.jpg"
-    ],
-    variations: [
-      { color: "Green", size: "2.2", price: 160 },
-      { color: "Green", size: "2.4", price: 160 },
-      { color: "Green", size: "2.6", price: 160 },
-      { color: "Green", size: "2.8", price: 160 }
-    ],
-    category: "pearl"
-  },
-  {
-    id: "pearl-pink-1",
-    name: "Pearl Bangle - Pink",
-    description: "Delicate pearl bangle in soft pink. Perfect for adding a feminine and elegant touch to any outfit.",
-    images: [
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Pink1.jpg",
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Pink2.jpg"
-    ],
-    variations: [
-      { color: "Pink", size: "2.2", price: 160 },
-      { color: "Pink", size: "2.4", price: 160 },
-      { color: "Pink", size: "2.6", price: 160 },
-      { color: "Pink", size: "2.8", price: 160 }
-    ],
-    category: "pearl"
-  },
-  {
-    id: "pearl-rani-pink-1",
-    name: "Pearl Bangle - Rani Pink",
-    description: "Bold rani pink pearl bangle with a striking appearance. Perfect for making a statement at special occasions.",
-    images: [
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Rani_Pink1.jpg",
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Rani_Pink2.jpg"
-    ],
-    variations: [
-      { color: "Rani Pink", size: "2.2", price: 160 },
-      { color: "Rani Pink", size: "2.4", price: 160 },
-      { color: "Rani Pink", size: "2.6", price: 160 },
-      { color: "Rani Pink", size: "2.8", price: 160 }
-    ],
-    category: "pearl",
-    featured: true
-  },
-  {
-    id: "pearl-lavender",
-    name: "Pearl Bangle - Lavender",
-    description: "Soft lavender pearl bangle with a gentle, elegant appearance. Perfect for adding a touch of sophistication to any ensemble.",
-    images: [
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Lavender1.jpg"
-    ],
-    variations: [
-      { color: "Lavender", size: "2.2", price: 160 },
-      { color: "Lavender", size: "2.4", price: 160 },
-      { color: "Lavender", size: "2.6", price: 160 },
-      { color: "Lavender", size: "2.8", price: 160 }
-    ],
-    category: "pearl"
-  },
-  {
-    id: "pearl-yellow",
-    name: "Pearl Bangle - Yellow",
-    description: "Bright yellow pearl bangle that adds warmth and vibrancy to any outfit. Perfect for festive occasions and celebrations.",
-    images: [
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangle_Yellow1.jpg"
-    ],
-    variations: [
-      { color: "Yellow", size: "2.2", price: 160 },
-      { color: "Yellow", size: "2.4", price: 160 },
-      { color: "Yellow", size: "2.6", price: 160 },
-      { color: "Yellow", size: "2.8", price: 160 }
-    ],
-    category: "pearl"
-  },
-  {
-    id: "pearl-with-kundhan",
-    name: "Pearl Bangle with Kundhan",
-    description: "KUNDHAN BANGLES ARE CUSTOMIZABLE! Elegant pearl bangle enhanced with beautiful kundhan work. The combination of pearl finish and kundhan creates a luxurious and sophisticated appearance.",
-    images: [
-      "/BANGLES/PEARL_BANGLE/Pearl_Bangles_with_Kundhan1.jpg"
-    ],
-    variations: [
-      { color: "Pearl with Kundhan", size: "2.2", price: 190 },
-      { color: "Pearl with Kundhan", size: "2.4", price: 190 },
-      { color: "Pearl with Kundhan", size: "2.6", price: 190 },
-      { color: "Pearl with Kundhan", size: "2.8", price: 190 }
-    ],
-    category: "pearl",
-    featured: true
-  },
-
-  // RAINDROP BANGLES
-  {
-    id: "raindrop-black-1",
-    name: "Raindrop Black Bangle",
-    description: "Classic black raindrop bangle with a unique textured design. The raindrop pattern creates an elegant and sophisticated look.",
-    images: [
-      "/BANGLES/RAINDROP/Raindrop_Black1.jpg",
-      "/BANGLES/RAINDROP/Raindrop_Black2.jpg",
-      "/BANGLES/RAINDROP/Raindrop_Black3.jpg",
-      "/BANGLES/RAINDROP/Raindrop_Black4.jpg"
-    ],
-    variations: [
-      { color: "Black", size: "2.2", price: 180 },
-      { color: "Black", size: "2.4", price: 180 },
-      { color: "Black", size: "2.6", price: 180 },
-      { color: "Black", size: "2.8", price: 180 }
-    ],
-    category: "raindrop"
-  },
-  {
-    id: "raindrop-lavender",
-    name: "Raindrop Lavender Bangle",
-    description: "Soft lavender raindrop bangle with a gentle, feminine appearance. The raindrop texture adds subtle elegance to this piece.",
-    images: [
-      "/BANGLES/RAINDROP/Raindrop_Lavender.jpg"
-    ],
-    variations: [
-      { color: "Lavender", size: "2.2", price: 180 },
-      { color: "Lavender", size: "2.4", price: 180 },
-      { color: "Lavender", size: "2.6", price: 180 },
-      { color: "Lavender", size: "2.8", price: 180 }
-    ],
-    category: "raindrop"
-  },
-  {
-    id: "raindrop-reddish-pink-1",
-    name: "Raindrop Reddish Pink Bangle",
-    description: "Beautiful reddish pink raindrop bangle with a warm, inviting color. Perfect for adding a touch of romance to any outfit.",
-    images: [
-      "/BANGLES/RAINDROP/Raindrop_Reddishpink1.jpg",
-      "/BANGLES/RAINDROP/Raindrop_Reddishpink2.jpg"
-    ],
-    variations: [
-      { color: "Reddish Pink", size: "2.2", price: 180 },
-      { color: "Reddish Pink", size: "2.4", price: 180 },
-      { color: "Reddish Pink", size: "2.6", price: 180 },
-      { color: "Reddish Pink", size: "2.8", price: 180 }
-    ],
-    category: "raindrop"
-  },
-  {
-    id: "raindrop-vine",
-    name: "Raindrop Vine Bangle",
-    description: "Unique vine-patterned raindrop bangle with a natural, organic design. Perfect for those who appreciate nature-inspired jewelry.",
-    images: [
-      "/BANGLES/RAINDROP/Raindrop_Vine.jpg"
-    ],
-    variations: [
-      { color: "Vine", size: "2.2", price: 180 },
-      { color: "Vine", size: "2.4", price: 180 },
-      { color: "Vine", size: "2.6", price: 180 },
-      { color: "Vine", size: "2.8", price: 180 }
-    ],
-    category: "raindrop"
-  },
-
-  // RAINDROP MULTI COLOR BANGLES
-  {
-    id: "raindrop-multi-1",
-    name: "Raindrop Multi Color Bangle",
-    description: "Vibrant multi-color raindrop bangle featuring a beautiful blend of colors. Perfect for adding fun and excitement to any ensemble.",
-    images: [
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi1.jpg",
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi2.jpg",
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi3.jpg"
-    ],
-    variations: [
-      { color: "Multi Color", size: "2.2", price: 180 },
-      { color: "Multi Color", size: "2.4", price: 180 },
-      { color: "Multi Color", size: "2.6", price: 180 },
-      { color: "Multi Color", size: "2.8", price: 180 }
-    ],
-    category: "raindrop-multi",
-    featured: true
-  },
-  {
-    id: "raindrop-multi-green-1",
-    name: "Raindrop Multi Green Bangle",
-    description: "Beautiful green-themed multi-color raindrop bangle. The combination of different green shades creates a harmonious and natural look.",
-    images: [
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Green1.jpg",
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Green2.jpg"
-    ],
-    variations: [
-      { color: "Multi Green", size: "2.2", price: 180 },
-      { color: "Multi Green", size: "2.4", price: 180 },
-      { color: "Multi Green", size: "2.6", price: 180 },
-      { color: "Multi Green", size: "2.8", price: 180 }
-    ],
-    category: "raindrop-multi"
-  },
-  {
-    id: "raindrop-multi-yellow-1",
-    name: "Raindrop Multi Yellow Bangle",
-    description: "Warm yellow-themed multi-color raindrop bangle. The combination of yellow shades creates a bright and cheerful appearance.",
-    images: [
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Yellow1.jpg",
-      "/BANGLES/RAINDROP_MULTI_COLOR_BANGLES/Raindrop_Multi_Yellow2.jpg"
-    ],
-    variations: [
-      { color: "Multi Yellow", size: "2.2", price: 180 },
-      { color: "Multi Yellow", size: "2.4", price: 180 },
-      { color: "Multi Yellow", size: "2.6", price: 180 },
-      { color: "Multi Yellow", size: "2.8", price: 180 }
-    ],
-    category: "raindrop-multi"
+    return products || [];
+  } catch (error) {
+    console.error('Error in fetchProducts:', error);
+    return [];
   }
-];
-
-export const getProductById = (id: string): Product | undefined => {
-  return products.find(product => product.id === id);
 };
 
-export const getFeaturedProducts = (): Product[] => {
-  return products.filter(product => product.featured);
+export const getProductById = async (id: string): Promise<Product | null> => {
+  try {
+    const { data: product, error } = await supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description,
+        images,
+        category,
+        featured,
+        variations (
+          id,
+          color,
+          size,
+          price,
+          stock,
+          active
+        )
+      `)
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error('Error fetching product:', error);
+      return null;
+    }
+
+    return product;
+  } catch (error) {
+    console.error('Error in getProductById:', error);
+    return null;
+  }
 };
 
-export const getProductsByCategory = (category: string): Product[] => {
-  if (category === 'all') {
-    return products;
+export const getFeaturedProducts = async (): Promise<Product[]> => {
+  try {
+    const { data: products, error } = await supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description,
+        images,
+        category,
+        featured,
+        variations (
+          id,
+          color,
+          size,
+          price,
+          stock,
+          active
+        )
+      `)
+      .eq('featured', true)
+      .order('name');
+
+    if (error) {
+      console.error('Error fetching featured products:', error);
+      throw error;
+    }
+
+    return products || [];
+  } catch (error) {
+    console.error('Error in getFeaturedProducts:', error);
+    return [];
   }
-  return products.filter(product => product.category === category);
 };
 
-export const getRelatedProducts = (currentProduct: Product, limit: number = 4): Product[] => {
-  // First, try to get products from the same category
-  const sameCategoryProducts = products.filter(
-    product => product.category === currentProduct.category && product.id !== currentProduct.id
-  );
-  
-  // If we have enough products from the same category, return them
-  if (sameCategoryProducts.length >= limit) {
-    return sameCategoryProducts.slice(0, limit);
+export const getProductsByCategory = async (category: string): Promise<Product[]> => {
+  try {
+    let query = supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description,
+        images,
+        category,
+        featured,
+        variations (
+          id,
+          color,
+          size,
+          price,
+          stock,
+          active
+        )
+      `);
+
+    // If category is 'all', don't filter by category
+    if (category !== 'all') {
+      query = query.eq('category', category);
+    }
+
+    const { data: products, error } = await query
+      .order('featured', { ascending: false })
+      .order('name');
+
+    if (error) {
+      console.error('Error fetching products by category:', error);
+      throw error;
+    }
+
+    return products || [];
+  } catch (error) {
+    console.error('Error in getProductsByCategory:', error);
+    return [];
   }
-  
-  // If not enough from same category, add featured products from other categories
-  const otherFeaturedProducts = products.filter(
-    product => product.category !== currentProduct.category && product.featured && product.id !== currentProduct.id
-  );
-  
-  // Combine same category products with featured products from other categories
-  const combined = [...sameCategoryProducts, ...otherFeaturedProducts];
-  
-  // Remove duplicates and return up to the limit
-  const uniqueProducts = combined.filter((product, index, self) => 
-    index === self.findIndex(p => p.id === product.id)
-  );
-  
-  return uniqueProducts.slice(0, limit);
+};
+
+export const getRelatedProducts = async (currentProduct: Product, limit: number = 4): Promise<Product[]> => {
+  try {
+    const { data: products, error } = await supabase
+      .from('products')
+      .select(`
+        id,
+        name,
+        description,
+        images,
+        category,
+        featured,
+        variations (
+          id,
+          color,
+          size,
+          price,
+          stock,
+          active
+        )
+      `)
+      .eq('category', currentProduct.category)
+      .neq('id', currentProduct.id)
+      .limit(limit)
+      .order('featured', { ascending: false })
+      .order('name');
+
+    if (error) {
+      console.error('Error fetching related products:', error);
+      throw error;
+    }
+
+    return products || [];
+  } catch (error) {
+    console.error('Error in getRelatedProducts:', error);
+    return [];
+  }
+};
+
+
+
+// Admin functions for managing products
+export const createProduct = async (productData: Omit<Product, 'id' | 'variations'> & { variations: Omit<Variation, 'id'>[] }): Promise<Product | null> => {
+  try {
+    const { variations, ...product } = productData;
+    
+    // Generate a unique ID based on category and name
+    const timestamp = Date.now();
+    const categorySlug = product.category.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const nameSlug = product.name.toLowerCase().replace(/[^a-z0-9]/g, '-');
+    const productId = `${categorySlug}-${nameSlug}-${timestamp}`;
+    
+    // Insert product with generated ID
+    const { data: newProduct, error: productError } = await supabase
+      .from('products')
+      .insert({ ...product, id: productId })
+      .select()
+      .single();
+
+    if (productError) {
+      console.error('Error creating product:', productError);
+      console.error('Product data attempted:', { ...product, id: productId });
+      return null;
+    }
+
+    // Insert variations
+    const variationsWithProductId = variations.map(v => ({
+      ...v,
+      product_id: newProduct.id
+    }));
+
+    const { error: variationsError } = await supabase
+      .from('variations')
+      .insert(variationsWithProductId);
+
+    if (variationsError) {
+      console.error('Error creating variations:', variationsError);
+      console.error('Variations data attempted:', variationsWithProductId);
+      // Rollback product creation
+      await supabase.from('products').delete().eq('id', newProduct.id);
+      return null;
+    }
+
+    // Fetch the complete product with variations
+    return await getProductById(newProduct.id);
+  } catch (error) {
+    console.error('Error in createProduct:', error);
+    return null;
+  }
+};
+
+export const updateProduct = async (id: string, productData: Partial<Product> & { variations?: Partial<Variation>[] }): Promise<Product | null> => {
+  try {
+    const { variations, ...product } = productData;
+    
+    // Update product
+    const { error: productError } = await supabase
+      .from('products')
+      .update(product)
+      .eq('id', id);
+
+    if (productError) {
+      console.error('Error updating product:', productError);
+      return null;
+    }
+
+    // Update variations if provided
+    if (variations) {
+      for (const variation of variations) {
+        if (variation.id) {
+          const { error: variationError } = await supabase
+            .from('variations')
+            .update(variation)
+            .eq('id', variation.id);
+
+          if (variationError) {
+            console.error('Error updating variation:', variationError);
+          }
+        }
+      }
+    }
+
+    // Fetch the updated product
+    return await getProductById(id);
+  } catch (error) {
+    console.error('Error in updateProduct:', error);
+    return null;
+  }
+};
+
+export const deleteProduct = async (id: string): Promise<boolean> => {
+  try {
+    // Delete variations first (due to foreign key constraint)
+    const { error: variationsError } = await supabase
+      .from('variations')
+      .delete()
+      .eq('product_id', id);
+
+    if (variationsError) {
+      console.error('Error deleting variations:', variationsError);
+      return false;
+    }
+
+    // Delete product
+    const { error: productError } = await supabase
+      .from('products')
+      .delete()
+      .eq('id', id);
+
+    if (productError) {
+      console.error('Error deleting product:', productError);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in deleteProduct:', error);
+    return false;
+  }
+};
+
+export const updateVariationStock = async (variationId: string, stock: number): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('variations')
+      .update({ stock })
+      .eq('id', variationId);
+
+    if (error) {
+      console.error('Error updating variation stock:', error);
+      return false;
+    }
+
+    return true;
+  } catch (error) {
+    console.error('Error in updateVariationStock:', error);
+    return false;
+  }
+};
+
+export const updateVariationActive = async (variationId: string, active: boolean): Promise<boolean> => {
+  try {
+    const { error } = await supabase
+      .from('variations')
+      .update({ active })
+      .eq('id', variationId);
+
+    return !error;
+  } catch (error) {
+    console.error('Error updating variation active status:', error);
+    return false;
+  }
 };

@@ -1,21 +1,29 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import { Badge } from '@/components/ui/badge';
 import { toast } from '@/components/ui/sonner';
-import { X, Minus, Plus, ShoppingBag, ArrowRight } from 'lucide-react';
+import { X, Minus, Plus, ShoppingBag, ArrowRight, AlertCircle } from 'lucide-react';
 
 const Cart = () => {
-  const { items, totalPrice, removeFromCart, updateQuantity } = useCart();
+  const { items, totalPrice, removeFromCart, updateQuantity, checkCartItemAvailability, removeOutOfStockItems, validateCart } = useCart();
 
   // Customer details for WhatsApp order
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
   const [shippingAddress, setShippingAddress] = useState('');
   const [notes, setNotes] = useState('');
+
+  // Validate cart when page loads
+  useEffect(() => {
+    if (items.length > 0) {
+      validateCart();
+    }
+  }, [items.length, validateCart]);
 
   const currency = (n: number) => `₹${n.toFixed(2)}`;
 
@@ -82,84 +90,65 @@ const Cart = () => {
             {/* Cart Items */}
             <div className="space-y-4">
               {items.map((item, index) => {
-                const itemPrice = item.variation.price;
-                const totalItemPrice = itemPrice * item.quantity;
-                
+                const availability = checkCartItemAvailability(item);
                 return (
-                  <div key={index} className="border rounded-lg p-4">
-                    <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
-                      {/* Mobile Display: Product + Price + Quantity + Total */}
-                      <div className="md:col-span-6 flex gap-4">
-                        {/* Product Image */}
-                        <Link to={`/product/${item.product.id}`} className="flex-shrink-0 w-20 h-20 overflow-hidden rounded-md">
-                          <img 
-                            src={item.product.images[0]} 
-                            alt={item.product.name} 
-                            className="w-full h-full object-cover"
-                          />
-                        </Link>
-                        
-                        {/* Product Info */}
-                        <div className="flex-1">
-                          <Link to={`/product/${item.product.id}`} className="font-medium hover:text-primary">
-                            {item.product.name}
-                          </Link>
-                          <p className="text-sm text-muted-foreground mt-1">
-                            Color: {item.variation.color}, Size: {item.variation.size}
-                          </p>
-                          
-                          {/* Mobile Price */}
-                          <div className="md:hidden mt-2">
-                            <p className="text-sm">
-                              Price: <span className="font-medium">{currency(itemPrice)}</span>
-                            </p>
-                          </div>
+                  <div key={index} className="flex items-center gap-4 p-4 border rounded-lg">
+                    <div className="w-16 h-16 bg-gray-100 rounded-lg flex-shrink-0">
+                      <img 
+                        src={item.product.images[0]} 
+                        alt={item.product.name}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    </div>
+                    
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium truncate">{item.product.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {item.variation.color}, Size {item.variation.size}"
+                      </p>
+                      <p className="text-sm font-medium">₹{item.variation.price}</p>
+                      
+                      {/* Stock Warning */}
+                      {!availability.available && (
+                        <div className="mt-2">
+                          <Badge variant="destructive" className="text-xs">
+                            <AlertCircle className="h-3 w-3 mr-1" />
+                            {availability.message}
+                          </Badge>
                         </div>
-                      </div>
-                      
-                      {/* Desktop Price */}
-                      <div className="hidden md:block md:col-span-2 text-center">
-                        <p>{currency(itemPrice)}</p>
-                      </div>
-                      
-                      {/* Quantity */}
-                      <div className="md:col-span-2 flex items-center justify-center gap-2">
-                        <button 
-                          className="p-2 rounded-md border"
-                          onClick={() => updateQuantity(index, Math.max(1, item.quantity - 1))}
-                          aria-label="Decrease quantity"
-                        >
-                          <Minus className="h-4 w-4" />
-                        </button>
-                        <input 
-                          type="number" 
-                          value={item.quantity}
-                          onChange={(e) => updateQuantity(index, Math.max(1, parseInt(e.target.value) || 1))}
-                          className="w-14 text-center border rounded-md h-9"
-                          min={1}
-                        />
-                        <button 
-                          className="p-2 rounded-md border"
-                          onClick={() => updateQuantity(index, item.quantity + 1)}
-                          aria-label="Increase quantity"
-                        >
-                          <Plus className="h-4 w-4" />
-                        </button>
-                      </div>
-                      
-                      {/* Total */}
-                      <div className="md:col-span-2 text-right font-medium">
-                        {currency(totalItemPrice)}
-                      </div>
-                      
-                      {/* Remove */}
-                      <button 
-                        className="absolute top-2 right-2 p-1 rounded-md hover:bg-muted"
+                      )}
+                    </div>
+                    
+                    <div className="flex items-center gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => updateQuantity(index, item.quantity - 1)}
+                        disabled={item.quantity <= 1}
+                      >
+                        <Minus className="h-4 w-4" />
+                      </Button>
+                      <span className="w-12 text-center">{item.quantity}</span>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => updateQuantity(index, item.quantity + 1)}
+                        disabled={item.quantity >= item.variation.stock}
+                      >
+                        <Plus className="h-4 w-4" />
+                      </Button>
+                    </div>
+                    
+                    <div className="text-right">
+                      <p className="font-medium">₹{(item.variation.price * item.quantity).toFixed(2)}</p>
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         onClick={() => removeFromCart(index)}
-                        aria-label="Remove item"
+                        className="text-red-500 hover:text-red-700"
                       >
                         <X className="h-4 w-4" />
-                      </button>
+                      </Button>
                     </div>
                   </div>
                 );
@@ -200,7 +189,38 @@ const Cart = () => {
 
               <Separator />
 
-              <Button className="w-full bg-green-600 hover:bg-green-700" onClick={handleSendWhatsApp}>
+              {/* Check if any items are out of stock */}
+              {(() => {
+                const unavailableItems = items.filter(item => !checkCartItemAvailability(item).available);
+                if (unavailableItems.length > 0) {
+                  return (
+                    <div className="p-4 bg-red-50 border border-red-200 rounded-lg mb-4">
+                      <div className="flex items-center gap-2 text-red-800 mb-2">
+                        <AlertCircle className="h-5 w-5" />
+                        <p className="font-medium">Some items in your cart are unavailable</p>
+                      </div>
+                      <p className="text-sm text-red-600 mb-3">
+                        Please remove out-of-stock items before placing your order.
+                      </p>
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={removeOutOfStockItems}
+                        className="text-red-600 border-red-300 hover:bg-red-50"
+                      >
+                        Remove Out-of-Stock Items
+                      </Button>
+                    </div>
+                  );
+                }
+                return null;
+              })()}
+
+              <Button 
+                className="w-full bg-green-600 hover:bg-green-700" 
+                onClick={handleSendWhatsApp}
+                disabled={items.some(item => !checkCartItemAvailability(item).available)}
+              >
                 Send Order via WhatsApp
               </Button>
               <p className="text-xs text-muted-foreground">We will reply on WhatsApp to confirm availability, shipping charges, and payment details.</p>

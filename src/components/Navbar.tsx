@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { ShoppingBag, Menu, X, Search } from 'lucide-react';
+import { ShoppingBag, Menu, X, Search, User, LogOut } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import { cn } from '@/lib/utils';
 
 const Navbar = () => {
   const { totalItems } = useCart();
+  const { user, isAdmin, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
@@ -27,6 +29,15 @@ const Navbar = () => {
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setIsMenuOpen(false);
+    } catch (error) {
+      console.error('Error logging out:', error);
+    }
   };
 
   return (
@@ -82,6 +93,31 @@ const Navbar = () => {
               )}
             </Link>
           </Button>
+
+          {/* Auth Links */}
+          {user ? (
+            <div className="hidden md:flex items-center space-x-2">
+              {isAdmin && (
+                <Button variant="outline" size="sm" asChild>
+                  <Link to="/admin">
+                    <User className="h-4 w-4 mr-2" />
+                    Admin
+                  </Link>
+                </Button>
+              )}
+              <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Logout
+              </Button>
+            </div>
+          ) : (
+            <Button variant="outline" size="sm" asChild className="hidden md:flex">
+              <Link to="/login">
+                <User className="h-4 w-4 mr-2" />
+                Login
+              </Link>
+            </Button>
+          )}
           
           <Button variant="ghost" size="icon" onClick={toggleMenu} className="md:hidden">
             {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
@@ -121,6 +157,40 @@ const Navbar = () => {
             >
               Contact
             </Link>
+            
+            {/* Mobile Auth Links */}
+            <div className="border-t border-muted mt-2 pt-2">
+              {user ? (
+                <>
+                  {isAdmin && (
+                    <Link 
+                      to="/admin" 
+                      className="px-6 py-3 hover:bg-muted transition-colors flex items-center"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <User className="h-4 w-4 mr-2" />
+                      Admin Panel
+                    </Link>
+                  )}
+                  <button 
+                    onClick={handleLogout}
+                    className="w-full px-6 py-3 hover:bg-muted transition-colors flex items-center text-left"
+                  >
+                    <LogOut className="h-4 w-4 mr-2" />
+                    Logout
+                  </button>
+                </>
+              ) : (
+                <Link 
+                  to="/login" 
+                  className="px-6 py-3 hover:bg-muted transition-colors flex items-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <User className="h-4 w-4 mr-2" />
+                  Login
+                </Link>
+              )}
+            </div>
           </nav>
         </div>
       )}

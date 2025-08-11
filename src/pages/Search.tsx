@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { products } from '@/data/products';
+import { getProductsByCategory, Product } from '@/data/products';
 import ProductCard from '@/components/ProductCard';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
-import { Search as SearchIcon, X } from 'lucide-react';
+import { Search as SearchIcon, X, Loader2, AlertCircle } from 'lucide-react';
 
 const Search = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || '');
   const [category, setCategory] = useState(searchParams.get('category') || 'all');
   const [sortBy, setSortBy] = useState('featured');
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   const categories = [
     { id: 'all', name: 'All Categories' },
@@ -26,18 +29,31 @@ const Search = () => {
     { id: 'raindrop-multi', name: 'Raindrop Multi Color' }
   ];
 
+  // Fetch all products on component mount
   useEffect(() => {
-    // Update URL params when search changes
-    const params = new URLSearchParams();
-    if (searchQuery) params.set('q', searchQuery);
-    if (category !== 'all') params.set('category', category);
-    if (sortBy !== 'featured') params.set('sort', sortBy);
-    setSearchParams(params);
-  }, [searchQuery, category, sortBy, setSearchParams]);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        // Fetch products by category 'all' to get all products
+        const products = await getProductsByCategory('all');
+        setAllProducts(products);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('Failed to load products. Please check your connection.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   useEffect(() => {
+    if (allProducts.length === 0) return;
+
     // Filter and sort products
-    let result = products;
+    let result = allProducts;
 
     // Filter by category
     if (category !== 'all') {
@@ -85,7 +101,7 @@ const Search = () => {
     }
 
     setFilteredProducts(result);
-  }, [searchQuery, category, sortBy]);
+  }, [searchQuery, category, sortBy, allProducts]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,6 +113,67 @@ const Search = () => {
     setCategory('all');
     setSortBy('featured');
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-20">
+        <div className="bg-muted/50 py-12">
+          <div className="container mx-auto px-4">
+            <h1 className="font-serif text-4xl font-bold mb-4 text-center">Search Bangles</h1>
+            <p className="text-center text-muted-foreground max-w-2xl mx-auto">
+              Find your perfect bangles with our comprehensive search and filter options.
+            </p>
+          </div>
+        </div>
+        
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="flex justify-center py-12">
+              <div className="text-center">
+                <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary mb-4" />
+                <p className="text-muted-foreground">Loading products...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen pt-20">
+        <div className="bg-muted/50 py-12">
+          <div className="container mx-auto px-4">
+            <h1 className="font-serif text-4xl font-bold mb-4 text-center">Search Bangles</h1>
+            <p className="text-center text-muted-foreground max-w-2xl mx-auto">
+              Find your perfect bangles with our comprehensive search and filter options.
+            </p>
+          </div>
+        </div>
+        
+        <div className="container mx-auto px-4 py-8">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center py-12">
+              <AlertCircle className="mx-auto h-12 w-12 text-yellow-500 mb-4" />
+              <p className="text-muted-foreground mb-4">{error}</p>
+              <div className="space-y-2">
+                <p className="text-sm text-gray-500">Please check:</p>
+                <ul className="text-sm text-gray-500 space-y-1">
+                  <li>• Your internet connection</li>
+                  <li>• Supabase environment variables in .env file</li>
+                  <li>• Database tables are created</li>
+                </ul>
+              </div>
+              <Button onClick={() => window.location.reload()} className="mt-4">
+                Try Again
+              </Button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20">

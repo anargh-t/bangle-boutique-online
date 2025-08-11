@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { getProductsByCategory, products } from '@/data/products';
-import ProductCard from '@/components/ProductCard';
+import { getProductsByCategory, Product } from '../data/products';
+import ProductCard from '../components/ProductCard';
 import { useLocation } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { Search } from 'lucide-react';
+import { Button } from '../components/ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../components/ui/select';
+import { Input } from '../components/ui/input';
+import { Separator } from '../components/ui/separator';
+import { Search, Loader2 } from 'lucide-react';
 
 const Catalog = () => {
   const location = useLocation();
@@ -16,7 +16,10 @@ const Catalog = () => {
   const [category, setCategory] = useState(initialCategory);
   const [sortBy, setSortBy] = useState('featured');
   const [searchQuery, setSearchQuery] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(products);
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   
   const categories = [
     { id: 'all', name: 'All Products' },
@@ -29,30 +32,52 @@ const Catalog = () => {
     { id: 'raindrop-multi', name: 'Raindrop Multi Color' }
   ];
 
+
+
   useEffect(() => {
-    // Filter products based on category and search query
-    let result = getProductsByCategory(category);
+    const fetchProducts = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const products = await getProductsByCategory(category);
+        setAllProducts(products);
+        setFilteredProducts(products);
+      } catch (err) {
+        setError('Failed to load products');
+        console.error('Error fetching products:', err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, [category]);
+
+  useEffect(() => {
+    // Start with all products
+    let filtered = [...allProducts];
     
+    // Filter by search query
     if (searchQuery) {
-      const query = searchQuery.toLowerCase();
-      result = result.filter(
+      filtered = filtered.filter(
         product => 
-          product.name.toLowerCase().includes(query) || 
-          product.description.toLowerCase().includes(query)
+          product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          product.description.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
     
     // Sort products
+    let sorted = [...filtered];
     switch (sortBy) {
       case 'price-low':
-        result = [...result].sort((a, b) => {
+        sorted.sort((a, b) => {
           const aPrice = Math.min(...a.variations.map(v => v.price));
           const bPrice = Math.min(...b.variations.map(v => v.price));
           return aPrice - bPrice;
         });
         break;
       case 'price-high':
-        result = [...result].sort((a, b) => {
+        sorted.sort((a, b) => {
           const aPrice = Math.max(...a.variations.map(v => v.price));
           const bPrice = Math.max(...b.variations.map(v => v.price));
           return bPrice - aPrice;
@@ -61,12 +86,12 @@ const Catalog = () => {
       case 'newest':
         // In a real app, we would sort by date
         // Here we're just reversing for demonstration
-        result = [...result].reverse();
+        sorted.reverse();
         break;
       case 'featured':
       default:
         // Featured products first, then the rest
-        result = [...result].sort((a, b) => {
+        sorted.sort((a, b) => {
           if (a.featured && !b.featured) return -1;
           if (!a.featured && b.featured) return 1;
           return 0;
@@ -74,8 +99,33 @@ const Catalog = () => {
         break;
     }
     
-    setFilteredProducts(result);
-  }, [category, sortBy, searchQuery]);
+    setFilteredProducts(sorted);
+  }, [searchQuery, sortBy, allProducts]);
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen pt-20 flex items-center justify-center">
+        <div className="text-center">
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground">Loading products...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen pt-20 flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-xl font-medium mb-4">Error loading products</h2>
+          <p className="text-muted-foreground mb-6">{error}</p>
+          <Button onClick={() => window.location.reload()}>
+            Try Again
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen pt-20">
@@ -133,6 +183,7 @@ const Catalog = () => {
                 Showing {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}
               </div>
               <div className="flex items-center gap-2">
+
                 <span className="text-sm">Sort by:</span>
                 <Select value={sortBy} onValueChange={setSortBy}>
                   <SelectTrigger className="w-[180px]">

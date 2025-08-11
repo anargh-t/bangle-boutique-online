@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProductById, getRelatedProducts, Product, Variation } from '@/data/products';
 import { Button } from '@/components/ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { Badge } from '@/components/ui/badge';
-import { ShoppingBag, ChevronLeft } from 'lucide-react';
+import { ShoppingBag, ChevronLeft, Loader2, AlertCircle } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import { toast } from '@/components/ui/sonner';
 import ProductCard from '@/components/ProductCard';
@@ -15,6 +14,7 @@ const ProductDetail = () => {
   const { addToCart } = useCart();
   const [product, setProduct] = useState<Product | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [selectedColor, setSelectedColor] = useState<string>('');
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [quantity, setQuantity] = useState(1);
@@ -32,28 +32,36 @@ const ProductDetail = () => {
   useEffect(() => {
     if (!id) return;
     
-    const fetchProduct = () => {
+    const fetchProduct = async () => {
       setIsLoading(true);
-      const foundProduct = getProductById(id);
-      
-      if (foundProduct) {
-        setProduct(foundProduct);
+      setError(null);
+      try {
+        const foundProduct = await getProductById(id);
         
-        // Set initial image
-        setSelectedImage(foundProduct.images[0]);
-        
-        // Get unique colors from variations
-        const uniqueColors = Array.from(new Set(foundProduct.variations.map(v => v.color)));
-        if (uniqueColors.length > 0) {
-          setSelectedColor(uniqueColors[0]);
+        if (foundProduct) {
+          setProduct(foundProduct);
+          
+          // Set initial image
+          setSelectedImage(foundProduct.images[0]);
+          
+          // Get unique colors from variations
+          const uniqueColors = Array.from(new Set(foundProduct.variations.map(v => v.color)));
+          if (uniqueColors.length > 0) {
+            setSelectedColor(uniqueColors[0]);
+          }
+          
+          // Get related products using the new function
+          const related = await getRelatedProducts(foundProduct, 4);
+          setRelatedProducts(related);
+        } else {
+          setError('Product not found');
         }
-        
-        // Get related products using the new function
-        const related = getRelatedProducts(foundProduct, 4);
-        setRelatedProducts(related);
+      } catch (err) {
+        setError('Failed to load product');
+        console.error('Error fetching product:', err);
+      } finally {
+        setIsLoading(false);
       }
-      
-      setIsLoading(false);
     };
     
     fetchProduct();
@@ -84,19 +92,49 @@ const ProductDetail = () => {
       setSelectedVariation(variation);
     }
   }, [product, selectedColor, selectedSize]);
+
+  // Check if all variations are out of stock
+  const allVariationsOutOfStock = product?.variations.every(v => v.stock === 0) || false;
+  const hasAvailableVariations = product?.variations.some(v => v.stock > 0) || false;
   
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseInt(e.target.value);
-    if (isNaN(value) || value < 1) {
+    const value = e.target.value;
+    
+    // Allow empty string for clearing
+    if (value === '') {
+      setQuantity(0);
+      return;
+    }
+    
+    const numValue = parseInt(value);
+    if (isNaN(numValue) || numValue < 1) {
       setQuantity(1);
     } else {
-      setQuantity(value);
+      setQuantity(numValue);
     }
   };
   
   const handleAddToCart = () => {
     if (!product || !selectedVariation) {
       toast.error('Please select all options before adding to cart');
+      return;
+    }
+    
+    // Check if quantity is valid
+    if (quantity <= 0) {
+      toast.error('Please enter a valid quantity');
+      return;
+    }
+    
+    // Check if quantity exceeds available stock
+    if (quantity > selectedVariation.stock) {
+      toast.error(`Only ${selectedVariation.stock} items available in stock`);
+      return;
+    }
+    
+    // Check if item is out of stock
+    if (selectedVariation.stock === 0) {
+      toast.error('This item is out of stock');
       return;
     }
     
@@ -129,7 +167,7 @@ const ProductDetail = () => {
       // Swipe right - previous image
       const currentIndex = product.images.indexOf(selectedImage);
       const prevIndex = currentIndex === 0 ? product.images.length - 1 : currentIndex - 1;
-      setSelectedImage(product.images[prevIndex]);
+      setSelectedImage(product.images[nextIndex]);
     }
   };
   
@@ -140,36 +178,22 @@ const ProductDetail = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">
-        <div className="animate-pulse space-y-8 w-full max-w-4xl p-4">
-          <div className="h-6 bg-muted rounded w-1/3"></div>
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="md:w-1/2 aspect-square bg-muted rounded"></div>
-            <div className="md:w-1/2 space-y-4">
-              <div className="h-8 bg-muted rounded w-3/4"></div>
-              <div className="h-4 bg-muted rounded w-1/2"></div>
-              <div className="h-32 bg-muted rounded"></div>
-              <div className="space-y-2">
-                <div className="h-4 bg-muted rounded"></div>
-                <div className="h-10 bg-muted rounded"></div>
-              </div>
-              <div className="space-y-2">
-                <div className="h-4 bg-muted rounded"></div>
-                <div className="h-10 bg-muted rounded"></div>
-              </div>
-              <div className="h-12 bg-muted rounded w-full"></div>
-            </div>
-          </div>
+        <div className="text-center">
+          <Loader2 className="mx-auto h-8 w-8 animate-spin text-primary mb-4" />
+          <p className="text-muted-foreground">Loading product...</p>
         </div>
       </div>
     );
   }
   
-  if (!product) {
+  if (error || !product) {
     return (
       <div className="min-h-screen pt-20 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-xl font-medium mb-4">Product not found</h2>
-          <p className="text-muted-foreground mb-6">The product you're looking for doesn't exist or has been removed.</p>
+          <p className="text-muted-foreground mb-6">
+            {error || "The product you're looking for doesn't exist or has been removed."}
+          </p>
           <Button asChild>
             <Link to="/catalog">Back to Shop</Link>
           </Button>
@@ -178,6 +202,7 @@ const ProductDetail = () => {
     );
   }
 
+  // Calculate the price with discount if applicable
   const price = selectedVariation?.price || 0;
   
   return (
@@ -269,48 +294,114 @@ const ProductDetail = () => {
             
             {/* Variations Selection */}
             <div className="space-y-6">
+              {/* Out of Stock Warning */}
+              {allVariationsOutOfStock && (
+                <div className="p-4 bg-red-50 border border-red-200 rounded-lg">
+                  <div className="flex items-center gap-2 text-red-800">
+                    <AlertCircle className="h-5 w-5" />
+                    <div>
+                      <p className="font-medium">This product is currently out of stock</p>
+                      <p className="text-sm text-red-600">Please contact us for availability updates or check back later.</p>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
               {/* Color Selection */}
               <div>
-                <label htmlFor="color-select" className="block text-sm font-medium mb-2">
+                <label className="block text-sm font-medium mb-2">
                   Color
                 </label>
-                <Select value={selectedColor} onValueChange={setSelectedColor}>
-                  <SelectTrigger id="color-select" className="w-full">
-                    <SelectValue placeholder="Select Color" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {Array.from(new Set(product.variations.map(v => v.color))).map(color => (
-                      <SelectItem key={color} value={color}>
-                        {color}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                <div className="flex gap-2">
+                  {Array.from(new Set(product.variations.map(v => v.color))).map(color => (
+                    <button
+                      key={color}
+                      onClick={() => setSelectedColor(color)}
+                      disabled={allVariationsOutOfStock}
+                      className={`relative px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 overflow-hidden ${
+                        selectedColor === color
+                          ? 'bg-amber-100 border-amber-400 text-amber-700 shadow-lg ring-2 ring-amber-200 scale-105'
+                          : 'bg-white border-gray-300 text-gray-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600 hover:shadow-md'
+                      } ${
+                        allVariationsOutOfStock
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'cursor-pointer'
+                      }`}
+                    >
+                      <span className="relative z-10">{color}</span>
+                      {selectedColor === color && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-200/20 to-amber-100/20 animate-pulse"></div>
+                      )}
+                    </button>
+                  ))}
+                </div>
+                {allVariationsOutOfStock && (
+                  <p className="text-sm text-red-600 mt-1">No color options available</p>
+                )}
               </div>
               
-              {/* Size Selection - boxes */}
+              {/* Size Selection */}
               <div>
-                <label className="block text-sm font-medium mb-2">Size</label>
-                <div className="flex gap-3 flex-wrap">
-                  {availableVariations.map(variation => {
-                    const isActive = selectedSize === variation.size;
-                    return (
-                      <button
-                        key={variation.size}
-                        type="button"
-                        onClick={() => setSelectedSize(variation.size)}
-                        className={`min-w-[56px] px-4 py-2 rounded-md border text-sm transition-colors ${
-                          isActive
-                            ? 'border-primary text-primary bg-primary/10'
-                            : 'border-input text-foreground hover:bg-accent'
-                        }`}
-                      >
-                        {variation.size}
-                      </button>
-                    );
-                  })}
+                <label className="block text-sm font-medium mb-2">
+                  Size
+                </label>
+                <div className="flex gap-2">
+                  {availableVariations.map(variation => (
+                    <button
+                      key={variation.size}
+                      onClick={() => setSelectedSize(variation.size)}
+                      disabled={variation.stock === 0 || allVariationsOutOfStock}
+                      className={`relative px-3 py-2 rounded-lg border text-sm font-medium transition-all duration-300 transform hover:scale-105 active:scale-95 overflow-hidden ${
+                        selectedSize === variation.size
+                          ? 'bg-amber-100 border-amber-400 text-amber-700 shadow-lg ring-2 ring-amber-200 scale-105'
+                          : 'bg-white border-gray-300 text-gray-700 hover:border-amber-300 hover:bg-amber-50 hover:text-amber-600 hover:shadow-md'
+                      } ${
+                        variation.stock === 0 || allVariationsOutOfStock
+                          ? 'opacity-50 cursor-not-allowed'
+                          : 'cursor-pointer'
+                      }`}
+                    >
+                      <div className="flex flex-col items-center relative z-10">
+                        <span className="font-semibold">{variation.size}"</span>
+                        {variation.stock === 0 && (
+                          <span className="text-xs text-red-500">Out of stock</span>
+                        )}
+                        {variation.stock > 0 && variation.stock <= 2 && (
+                          <span className="text-xs text-amber-600 font-medium">Only {variation.stock} left</span>
+                        )}
+                      </div>
+                      {selectedSize === variation.size && (
+                        <div className="absolute inset-0 bg-gradient-to-r from-amber-200/20 to-amber-100/20 animate-pulse"></div>
+                      )}
+                    </button>
+                  ))}
                 </div>
+                {!selectedColor && !allVariationsOutOfStock && (
+                  <p className="text-sm text-muted-foreground mt-1">Please select a color first</p>
+                )}
+                {selectedColor && availableVariations.length === 0 && !allVariationsOutOfStock && (
+                  <p className="text-sm text-red-600 mt-1">No size options available for this color</p>
+                )}
               </div>
+              
+              {/* Stock Status */}
+              {selectedVariation && (
+                <div className="text-sm">
+                  {selectedVariation.stock === 0 ? (
+                    <Badge variant="destructive">Out of Stock</Badge>
+                  ) : selectedVariation.stock <= 2 ? (
+                    <Badge variant="secondary">Only {selectedVariation.stock} left</Badge>
+                  ) : (
+                    <Badge variant="outline">In Stock</Badge>
+                  )}
+                </div>
+              )}
+              
+              {!selectedVariation && !allVariationsOutOfStock && (
+                <div className="text-sm">
+                  <Badge variant="outline">Select options to see stock status</Badge>
+                </div>
+              )}
               
               {/* Quantity */}
               <div>
@@ -320,33 +411,48 @@ const ProductDetail = () => {
                 <input
                   type="number"
                   id="quantity"
-                  min="1"
-                  value={quantity}
+                  max={selectedVariation?.stock || 1}
+                  value={quantity === 0 ? '' : quantity}
                   onChange={handleQuantityChange}
-                  className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="flex h-10 w-24 sm:w-32 rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={!selectedVariation || selectedVariation.stock === 0 || allVariationsOutOfStock}
+                  placeholder={!selectedVariation ? "Select options first" : "1"}
                 />
+                {!selectedVariation && (
+                  <p className="text-sm text-muted-foreground mt-1">Please select color and size first</p>
+                )}
               </div>
               
               {/* Add to Cart Button */}
               <Button 
-                className="w-full"
+                className="w-full sm:w-auto sm:px-8"
                 onClick={handleAddToCart}
-                disabled={!selectedVariation}
+                disabled={!selectedVariation || selectedVariation.stock === 0 || allVariationsOutOfStock}
               >
                 <ShoppingBag className="mr-2 h-4 w-4" /> 
-                Add to Cart
+                {!selectedVariation ? 'Select Options' : selectedVariation.stock === 0 ? 'Out of Stock' : 'Add to Cart'}
               </Button>
+              
               {/* WhatsApp Buy/Enquire Button */}
-              <a
-                href={`https://wa.me/917012849883?text=${encodeURIComponent(`Hello, I'm interested in the product: ${product.name} (${selectedSize} inches, ${selectedColor}). Is it available?`)}
-                `}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full mt-2 inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm font-medium"
-                style={{ textAlign: 'center' }}
-              >
-                Buy/Enquire on WhatsApp
-              </a>
+              {!selectedVariation ? (
+                <div className="w-full sm:w-auto sm:px-8 p-3 bg-gray-100 border border-gray-300 rounded text-center text-gray-600 text-sm">
+                  Please select color and size to enquire
+                </div>
+              ) : selectedVariation.stock === 0 ? (
+                <div className="w-full sm:w-auto sm:px-8 p-3 bg-gray-100 border border-gray-300 rounded text-center text-gray-600 text-sm">
+                  Out of Stock - Contact us for availability updates
+                </div>
+              ) : (
+                <a
+                  href={`https://wa.me/917012849883?text=${encodeURIComponent(`Hello, I'm interested in the product: ${product.name} (${selectedSize} inches, ${selectedColor}). Is it available?`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full sm:w-auto sm:px-8 mt-2 inline-flex justify-center items-center px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 transition-colors text-sm font-medium"
+                  style={{ textAlign: 'center' }}
+                >
+                  Buy/Enquire on WhatsApp
+                </a>
+              )}
             </div>
           </div>
         </div>
