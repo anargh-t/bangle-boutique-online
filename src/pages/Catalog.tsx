@@ -20,6 +20,7 @@ const Catalog = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAllCategories, setShowAllCategories] = useState(true);
   
   const categories = [
     { id: 'all', name: 'All Products' },
@@ -29,9 +30,24 @@ const Catalog = () => {
     { id: 'oreo', name: 'Oreo Bangles' },
     { id: 'pearl', name: 'Pearl Bangles' },
     { id: 'raindrop', name: 'Raindrop Bangles' },
-    { id: 'raindrop-multi', name: 'Raindrop Multi Color' }
+    { id: 'raindrop-multi', name: 'Raindrop Multi Color' },
+    { id: 'others', name: 'Other Bangles' }
   ];
 
+  // Handle category selection
+  const handleCategorySelect = (selectedCategory: string) => {
+    setCategory(selectedCategory);
+    if (selectedCategory !== 'all') {
+      setShowAllCategories(false);
+    } else {
+      setShowAllCategories(true);
+    }
+  };
+
+  // Toggle category display
+  const toggleCategoryDisplay = () => {
+    setShowAllCategories(!showAllCategories);
+  };
 
 
   useEffect(() => {
@@ -146,16 +162,55 @@ const Catalog = () => {
           <div className="md:w-1/4 lg:w-1/5">
             <h2 className="font-medium text-lg mb-4">Categories</h2>
             <div className="space-y-2 mb-8">
-              {categories.map(cat => (
-                <Button
-                  key={cat.id}
-                  variant={cat.id === category ? "default" : "ghost"}
-                  className={`justify-start w-full ${cat.id === category ? '' : 'hover:bg-muted'}`}
-                  onClick={() => setCategory(cat.id)}
-                >
-                  {cat.name}
-                </Button>
-              ))}
+              {/* Mobile: Show selected category prominently */}
+              <div className="block md:hidden">
+                {!showAllCategories && category !== 'all' && (
+                  <div className="space-y-2">
+                    <div className="px-3 py-2 bg-amber-100 border border-amber-300 rounded-md text-amber-700 text-sm font-medium">
+                      {categories.find(cat => cat.id === category)?.name}
+                    </div>
+                    <Button
+                      variant="outline"
+                      className="justify-start w-full text-amber-600 border-amber-300 hover:bg-amber-50"
+                      onClick={toggleCategoryDisplay}
+                    >
+                      Show All Categories
+                    </Button>
+                  </div>
+                )}
+              </div>
+              
+              {/* Mobile: Show all categories when expanded */}
+              <div className="block md:hidden">
+                {showAllCategories && (
+                  <>
+                    {categories.map(cat => (
+                      <Button
+                        key={cat.id}
+                        variant={cat.id === category ? "default" : "ghost"}
+                        className={`justify-start w-full ${cat.id === category ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'hover:bg-muted'}`}
+                        onClick={() => handleCategorySelect(cat.id)}
+                      >
+                        {cat.name}
+                      </Button>
+                    ))}
+                  </>
+                )}
+              </div>
+              
+              {/* Desktop: Always show all categories */}
+              <div className="hidden md:block">
+                {categories.map(cat => (
+                  <Button
+                    key={cat.id}
+                    variant={cat.id === category ? "default" : "ghost"}
+                    className={`justify-start w-full ${cat.id === category ? 'bg-amber-500 hover:bg-amber-600 text-white' : 'hover:bg-muted'}`}
+                    onClick={() => setCategory(cat.id)}
+                  >
+                    {cat.name}
+                  </Button>
+                ))}
+              </div>
             </div>
             
             <Separator className="my-6" />

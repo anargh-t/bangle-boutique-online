@@ -73,6 +73,11 @@ const Footer = () => {
                   Raindrop Bangles
                 </Link>
               </li>
+               <li>
+                <Link to="/catalog?category=others" className="text-muted-foreground hover:text-primary transition-colors">
+                  Other Bangles
+                </Link>
+              </li>
             </ul>
           </div>
           

@@ -64,9 +64,11 @@ const Admin = () => {
     images: [],
     variations: [{ color: '', size: '', price: 0, stock: 0, active: true }]
   });
+  // Additional UI-only field to capture custom category when 'others' is selected
+  const [otherCategory, setOtherCategory] = useState<string>('');
 
   const categories = [
-    'combo', 'elegant', 'olive', 'oreo', 'pearl', 'raindrop', 'raindrop-multi'
+    'combo', 'elegant', 'olive', 'oreo', 'pearl', 'raindrop', 'raindrop-multi', 'others'
   ];
 
   // Sort variations by size in correct order
@@ -150,6 +152,7 @@ const Admin = () => {
       images: [],
       variations: [{ color: '', size: '', price: 0, stock: 0, active: true }]
     });
+    setOtherCategory('');
     // Clear image files and revoke object URLs to prevent memory leaks
     imageFiles.forEach(img => {
       if (img.preview) {
@@ -283,6 +286,17 @@ const Admin = () => {
       return;
     }
 
+    // If 'others' is selected, require a custom category and use it as the final category
+    let finalCategory = formData.category;
+    if (formData.category === 'others') {
+      const typed = otherCategory.trim();
+      if (!typed) {
+        toast.error('Please enter the category name for "Other"');
+        return;
+      }
+      finalCategory = typed;
+    }
+
     // Check if database is configured
     if (configError) {
       toast.error('Database is not configured. Please complete the setup first.');
@@ -329,7 +343,7 @@ const Admin = () => {
         const productData = {
           name: formData.name,
           description: formData.description,
-          category: formData.category,
+          category: finalCategory,
           featured: formData.featured,
           images: finalImages,
           variations: formData.variations.map(v => ({
@@ -358,7 +372,7 @@ const Admin = () => {
         const productData = {
           name: formData.name,
           description: formData.description,
-          category: formData.category,
+          category: finalCategory,
           featured: formData.featured,
           images: finalImages,
           variations: formData.variations.map(v => ({
@@ -394,15 +408,21 @@ const Admin = () => {
   const handleEdit = (product: Product) => {
     setEditingProduct(product);
     setIsEditMode(true);
+
+    // If the product category is not in our predefined list, treat it as 'others' and prefill the typed value
+    const known = new Set(categories);
+    const isCustom = !known.has(product.category);
+
     setFormData({
       id: product.id,
       name: product.name,
       description: product.description,
-      category: product.category,
+      category: isCustom ? 'others' : product.category,
       featured: product.featured || false,
       images: product.images, // Load existing images
       variations: product.variations.map(v => ({ color: v.color, size: v.size, price: v.price, stock: v.stock, active: v.active ?? true }))
     });
+    setOtherCategory(isCustom ? product.category : '');
     setImageFiles([]); // Clear uploaded files for edit mode
     setShowForm(true);
   };
@@ -1000,22 +1020,43 @@ CREATE POLICY "Allow public access to manage variations" ON variations
                   />
                 </div>
                 
-                <div>
-                  <Label htmlFor="category">Category *</Label>
-                  <select
-                    id="category"
-                    value={formData.category}
-                    onChange={(e) => setFormData(prev => ({ ...prev, category: e.target.value }))}
-                    className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                    required
-                  >
-                    <option value="">Select category</option>
-                    {categories.map(category => (
-                      <option key={category} value={category} className="capitalize">
-                        {category.replace('-', ' ')}
-                      </option>
-                    ))}
-                  </select>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <Label htmlFor="category">Category *</Label>
+                    <select
+                      id="category"
+                      value={formData.category}
+                      onChange={(e) => {
+                        const value = e.target.value;
+                        setFormData(prev => ({ ...prev, category: value }));
+                        if (value !== 'others') setOtherCategory('');
+                      }}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                      required
+                    >
+                      <option value="" disabled>Select category</option>
+                      {categories.map(category => (
+                        <option key={category} value={category} className="capitalize">
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* Other category input when 'others' is selected */}
+                  {formData.category === 'others' && (
+                    <div>
+                      <Label htmlFor="other-category">Other Category *</Label>
+                      <Input
+                        id="other-category"
+                        value={otherCategory}
+                        onChange={(e) => setOtherCategory(e.target.value)}
+                        placeholder="Type category name (e.g., kundan, traditional)"
+                        required
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">This will be saved as the product category.</p>
+                    </div>
+                  )}
                 </div>
               </div>
 

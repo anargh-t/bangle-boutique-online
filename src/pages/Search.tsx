@@ -17,6 +17,7 @@ const Search = () => {
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [showAllCategories, setShowAllCategories] = useState(true);
 
   const categories = [
     { id: 'all', name: 'All Categories' },
@@ -26,8 +27,24 @@ const Search = () => {
     { id: 'oreo', name: 'Oreo Bangles' },
     { id: 'pearl', name: 'Pearl Bangles' },
     { id: 'raindrop', name: 'Raindrop Bangles' },
-    { id: 'raindrop-multi', name: 'Raindrop Multi Color' }
+    { id: 'raindrop-multi', name: 'Raindrop Multi Color' },
+    { id: 'others', name: 'Other Bangles' }
   ];
+
+  // Handle category selection
+  const handleCategorySelect = (selectedCategory: string) => {
+    setCategory(selectedCategory);
+    if (selectedCategory !== 'all') {
+      setShowAllCategories(false);
+    } else {
+      setShowAllCategories(true);
+    }
+  };
+
+  // Toggle category display
+  const toggleCategoryDisplay = () => {
+    setShowAllCategories(!showAllCategories);
+  };
 
   // Fetch all products on component mount
   useEffect(() => {
@@ -224,18 +241,60 @@ const Search = () => {
           <div className="flex flex-col md:flex-row gap-4 mb-8">
             <div className="md:w-1/3">
               <label className="block text-sm font-medium mb-2">Category</label>
-              <Select value={category} onValueChange={setCategory}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Select category" />
-                </SelectTrigger>
-                <SelectContent>
-                  {categories.map(cat => (
-                    <SelectItem key={cat.id} value={cat.id}>
-                      {cat.name}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <div className="space-y-2">
+                {/* Mobile: Show selected category prominently */}
+                <div className="block md:hidden">
+                  {!showAllCategories && category !== 'all' && (
+                    <div className="space-y-2">
+                      <div className="px-3 py-2 bg-amber-100 border border-amber-300 rounded-md text-amber-700 text-sm font-medium">
+                        {categories.find(cat => cat.id === category)?.name}
+                      </div>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="w-full text-amber-600 border-amber-300 hover:bg-amber-50"
+                        onClick={toggleCategoryDisplay}
+                      >
+                        Show All Categories
+                      </Button>
+                    </div>
+                  )}
+                </div>
+                
+                {/* Mobile: Show all categories when expanded */}
+                <div className="block md:hidden">
+                  {showAllCategories && (
+                    <Select value={category} onValueChange={handleCategorySelect}>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select category" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {categories.map(cat => (
+                          <SelectItem key={cat.id} value={cat.id}>
+                            {cat.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  )}
+                </div>
+                
+                {/* Desktop: Always show all categories */}
+                <div className="hidden md:block">
+                  <Select value={category} onValueChange={setCategory}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map(cat => (
+                        <SelectItem key={cat.id} value={cat.id}>
+                          {cat.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
             </div>
             
             <div className="md:w-1/3">
