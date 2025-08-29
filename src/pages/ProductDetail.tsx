@@ -72,11 +72,19 @@ const ProductDetail = () => {
     if (!product || !selectedColor) return;
     
     const variations = product.variations.filter(v => v.color === selectedColor);
-    setAvailableVariations(variations);
+    
+    // Sort variations by size in ascending order
+    const sortedVariations = variations.sort((a, b) => {
+      const sizeA = parseFloat(a.size);
+      const sizeB = parseFloat(b.size);
+      return sizeA - sizeB;
+    });
+    
+    setAvailableVariations(sortedVariations);
     
     // Reset selected size
-    if (variations.length > 0) {
-      setSelectedSize(variations[0].size);
+    if (sortedVariations.length > 0) {
+      setSelectedSize(sortedVariations[0].size);
     }
   }, [product, selectedColor]);
   
@@ -365,9 +373,6 @@ const ProductDetail = () => {
                         <span className="font-semibold">{variation.size}"</span>
                         {variation.stock === 0 && (
                           <span className="text-xs text-red-500">Out of stock</span>
-                        )}
-                        {variation.stock > 0 && variation.stock <= 2 && (
-                          <span className="text-xs text-amber-600 font-medium">Only {variation.stock} left</span>
                         )}
                       </div>
                       {selectedSize === variation.size && (
